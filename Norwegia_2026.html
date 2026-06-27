@@ -1,0 +1,1270 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Norwegia w kamperze — Wrzesień 2026</title>
+<style>
+  :root {
+    --navy:   #1a3a5c;
+    --blue:   #2471a3;
+    --green:  #1e8449;
+    --orange: #d35400;
+    --purple: #6c3483;
+    --teal:   #148f77;
+    --gray:   #5d6d7e;
+    --red:    #922b21;
+    --yellow: #b7950b;
+    --bg:     #f0f3f6;
+    --card:   #ffffff;
+    --text:   #1c2833;
+    --muted:  #7f8c8d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+
+  /* HEADER */
+  header { background: linear-gradient(135deg, #0a1f3a 0%, #1a3a5c 60%, #1a6b8a 100%); color:#fff; padding:32px 40px 24px; position:relative; overflow:hidden; }
+  header::after { content:'🇳🇴'; position:absolute; right:40px; top:16px; font-size:80px; opacity:.12; }
+  header h1 { font-size:26px; font-weight:700; }
+  header p.sub { color:#a8d4f0; margin-top:4px; font-size:13px; }
+  .stats-bar { display:flex; flex-wrap:wrap; gap:10px; margin-top:20px; }
+  .stat { background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); border-radius:8px; padding:8px 16px; text-align:center; }
+  .stat .val { font-size:21px; font-weight:700; display:block; }
+  .stat .lbl { font-size:11px; color:#a8d4f0; text-transform:uppercase; letter-spacing:.6px; }
+
+  /* NOTICE BOX */
+  .notice { background:#fffbea; border-bottom:2px solid #f6d860; padding:10px 40px; font-size:12.5px; color:#7a5800; }
+  .notice strong { color:#5a3e00; }
+
+  /* LEGEND */
+  .legend { display:flex; flex-wrap:wrap; gap:8px; padding:12px 40px; background:#fff; border-bottom:1px solid #e0e6ec; }
+  .legend-item { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); }
+  .legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+  /* MAIN */
+  main { max-width:900px; margin:0 auto; padding:22px 20px 60px; }
+
+  /* DAY CARD */
+  .day { display:grid; grid-template-columns:70px 1fr; margin-bottom:12px; border-radius:10px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,.1); background:var(--card); }
+  .day-num { display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:14px 6px; color:#fff; font-weight:700; text-align:center; gap:3px; }
+  .day-num .d { font-size:13px; line-height:1; font-weight:600; }
+  .day-num .daynum { font-size:20px; line-height:1.1; }
+  .day-num .emoji { font-size:17px; margin-top:6px; }
+  .day-body { padding:13px 17px; }
+  .day-header { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:8px; }
+  .day-title { font-size:15px; font-weight:700; }
+  .day-subtitle { font-size:12px; color:var(--muted); margin-top:1px; }
+  .badges { display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin-top:2px; }
+  .badge { display:inline-block; padding:2px 9px; border-radius:20px; font-size:11px; font-weight:600; white-space:nowrap; }
+  .badge-km   { background:#eaf0fb; color:#2471a3; }
+  .badge-hard { background:#fdebd0; color:#d35400; }
+  .badge-prom { background:#d6eaf8; color:#1a5276; }
+  .badge-trek { background:#d5f5e3; color:#1e8449; }
+  .badge-lofoty { background:#e8daef; color:#6c3483; }
+  .badge-relax  { background:#fef9e7; color:#b7950b; border:1px solid #f9e79f; }
+  ul.highlights { list-style:none; padding:0; margin:6px 0; display:flex; flex-wrap:wrap; gap:4px 18px; }
+  ul.highlights li { font-size:13px; color:#34495e; padding-left:14px; position:relative; }
+  ul.highlights li::before { content:'›'; position:absolute; left:0; color:var(--blue); font-weight:700; }
+  .sleep-box { margin-top:10px; background:#f8f9fa; border-left:3px solid #aab7c4; border-radius:0 6px 6px 0; padding:7px 12px; display:flex; align-items:flex-start; gap:8px; }
+  .sleep-box .icon { font-size:16px; flex-shrink:0; }
+  .sleep-box .sleep-text { font-size:12.5px; color:#4a5568; }
+  .sleep-box .sleep-text strong { color:var(--text); font-size:13px; }
+  .tip { margin-top:9px; background:#fffbea; border:1px solid #f6d860; border-radius:6px; padding:7px 12px; font-size:12px; color:#7a5800; }
+  .tip::before { content:'⚠ '; font-weight:700; }
+  .info { margin-top:9px; background:#eaf6ff; border:1px solid #aed6f1; border-radius:6px; padding:7px 12px; font-size:12px; color:#1a4a6a; }
+  .info::before { content:'ℹ '; font-weight:700; }
+
+  /* COLORS */
+  .c-dojazd { background:var(--gray); }
+  .c-prom   { background:var(--navy); }
+  .c-trek   { background:var(--green); }
+  .c-zwiedz { background:var(--orange); }
+  .c-lofoty { background:var(--purple); }
+  .c-relax  { background:var(--yellow); }
+  .c-powrot { background:var(--red); }
+  .c-teal   { background:var(--teal); }
+
+  /* SECTION LABEL */
+  .section-label { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.2px; color:var(--muted); margin:24px 0 10px; display:flex; align-items:center; gap:10px; }
+  .section-label::after { content:''; flex:1; height:1px; background:#d5dde5; }
+
+  /* COST TABLE */
+  .cost-card { background:var(--card); border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,.1); overflow:hidden; margin-bottom:14px; }
+  .cost-card table { width:100%; border-collapse:collapse; }
+  .cost-card th { background:var(--navy); color:#fff; padding:10px 14px; text-align:left; font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
+  .cost-card td { padding:9px 14px; border-bottom:1px solid #eceff1; font-size:13px; }
+  .cost-card tr:last-child td { border-bottom:none; }
+  .cost-card tr.total td { font-weight:700; background:#f0f3f6; border-top:2px solid #d5dde5; }
+  .cost-card tr:nth-child(even) td { background:#fafbfc; }
+
+  /* CHECKLIST */
+  .checklist { background:var(--card); border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,.1); padding:18px 20px; margin-bottom:14px; }
+  .checklist h3 { font-size:14px; margin-bottom:12px; color:var(--navy); }
+  .checklist ul { list-style:none; padding:0; }
+  .checklist li { padding:6px 0 6px 28px; position:relative; border-bottom:1px dashed #eceff1; font-size:13px; }
+  .checklist li:last-child { border-bottom:none; }
+  .checklist li::before { content:'☐'; position:absolute; left:0; font-size:16px; color:var(--blue); }
+  .checklist li span { color:var(--muted); font-size:12px; }
+
+  /* POWRÓT FORK */
+  .fork-option { border-radius:10px; overflow:hidden; margin-bottom:12px; box-shadow:0 1px 4px rgba(0,0,0,.1); }
+  .fork-header { display:flex; align-items:center; gap:10px; padding:11px 18px; color:#fff; font-size:13px; font-weight:600; flex-wrap:wrap; }
+  .fork-a .fork-header { background:#1a3a5c; }
+  .fork-b .fork-header { background:#1e6e44; }
+  .fork-c .fork-header { background:#0e5f6a; }
+  .fork-compare { background:var(--card); border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,.1); overflow:hidden; margin-bottom:16px; }
+  .fork-compare table { width:100%; border-collapse:collapse; }
+  .fork-compare th { background:#2c3e50; color:#fff; padding:9px 14px; text-align:left; font-size:11.5px; text-transform:uppercase; letter-spacing:.5px; }
+  .fork-compare td { padding:8px 14px; border-bottom:1px solid #eceff1; font-size:13px; }
+  .fork-compare tr:last-child td { border-bottom:none; }
+  .fork-compare .best { color:#1e8449; font-weight:700; }
+  .fork-compare .worst { color:#c0392b; font-weight:700; }
+  .fork-badge { font-size:11px; font-weight:700; padding:2px 10px; border-radius:20px; background:rgba(255,255,255,.25); white-space:nowrap; }
+  .fork-cost { margin-left:auto; font-size:12px; opacity:.9; white-space:nowrap; }
+  .fork-option .day { border-radius:0; box-shadow:none; margin-bottom:0; border-top:1px solid #e8ecf0; }
+  .fork-option .day:last-child { border-radius:0 0 8px 8px; }
+
+  @media print {
+    body { background:#fff; font-size:12px; }
+    .day,.cost-card { box-shadow:none; border:1px solid #ddd; page-break-inside:avoid; }
+  }
+  @media (max-width:560px) {
+    header { padding:20px; }
+    .legend,.notice { padding:10px 16px; }
+    main { padding:12px 10px 40px; }
+  }
+  /* ── ATRAKCJE ── */
+  .atr-card { background:var(--card); border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.12); margin-bottom:18px; overflow:hidden; scroll-margin-top:12px; }
+  .atr-card-header { padding:14px 18px 12px; color:#fff; display:flex; align-items:flex-start; gap:14px; }
+  .atr-card-header .atr-emoji { font-size:28px; line-height:1.1; flex-shrink:0; }
+  .atr-day-badge { display:inline-block; background:rgba(255,255,255,.22); border-radius:4px; font-size:10px; font-weight:700; padding:2px 7px; letter-spacing:.5px; margin-bottom:5px; }
+  .atr-card-header h3 { margin:0 0 3px; font-size:16px; font-weight:700; }
+  .atr-card-header .atr-meta { font-size:11.5px; opacity:.82; }
+  .atr-body { padding:14px 18px 16px; }
+  .atr-body p { font-size:13px; line-height:1.75; margin:0 0 10px; color:#333; }
+  .atr-body p:last-of-type { margin-bottom:0; }
+  .atr-stats { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 10px; }
+  .atr-stat { background:#f0f4f8; border-radius:8px; padding:8px 12px; font-size:12px; text-align:center; flex:1 1 70px; }
+  .atr-stat strong { display:block; font-size:10px; color:#888; text-transform:uppercase; letter-spacing:.3px; margin-bottom:3px; }
+  .atr-tip-box { background:#fffbea; border-left:3px solid #f0c040; padding:8px 12px; font-size:12.5px; border-radius:0 6px 6px 0; margin-top:12px; line-height:1.65; }
+  .atr-link { display:inline-block; margin:7px 5px 2px 0; font-size:12px; color:#1a5276; text-decoration:none; background:#dbeafe; border-radius:6px; padding:3px 11px; border:1px solid #b6d4f7; white-space:nowrap; }
+  .atr-link:hover { background:#bdd4f0; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Norwegia w kamperze 🏔️</h1>
+  <p class="sub">Ustroń → Lofoty i z powrotem &nbsp;|&nbsp; 3–20 września 2026 &nbsp;|&nbsp; 2 osoby, kamper ≤6m</p>
+  <div class="stats-bar">
+    <div class="stat"><span class="val">18</span><span class="lbl">Dni</span></div>
+    <div class="stat"><span class="val">~8 000</span><span class="lbl">km łącznie</span></div>
+    <div class="stat"><span class="val">4</span><span class="lbl">Promy</span></div>
+    <div class="stat"><span class="val">3+3</span><span class="lbl">Treki + dni Lofoty</span></div>
+    <div class="stat"><span class="val">3.–20. IX</span><span class="lbl">Termin</span></div>
+  </div>
+</header>
+
+<div class="notice">
+  <strong>Odległości:</strong> wszystkie podane po drogach, zweryfikowane przez OpenStreetMap OSRM routing API.
+  &nbsp;|&nbsp; <strong>Trasa dojazdu:</strong> A1/A4 przez Wrocław (nie przez Czechy — o ~150 km krócej).
+  &nbsp;|&nbsp; <strong>Powrót:</strong> Opcja B — prom Trelleborg → Świnoujście (Unity Line, ~450 PLN).
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--gray)"></div> Dojazd/jazda</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--navy)"></div> Prom</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div> Trekking</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div> Zwiedzanie</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div> Lofoty</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> Relax</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Mix</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Powrót</div>
+</div>
+
+<main>
+
+<!-- ═══ DOJAZD ═══ -->
+<div class="section-label">Dojazd — Ustroń → Hirtshals (1 378 km łącznie)</div>
+
+<div class="day">
+  <div class="day-num c-dojazd">
+    <span class="d">Czw 3 IX</span>
+    <span class="daynum">D1</span>
+    <span class="emoji">🚗</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Ustroń → Berlin (wyjazd 16:00)</div>
+        <div class="day-subtitle">S1 Gliwice → A4 Wrocław → A4/A13 → Berlin</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">566 km</span>
+        <span class="badge badge-relax">~6h jazdy</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li>S1/S52 Bielsko-Biała → Gliwice: ~58 km</li>
+      <li>A4 Gliwice → Wrocław: ~155 km — <strong>przez Wrocław, nie przez Czechy!</strong></li>
+      <li>A4 Wrocław → Legnica → Görlitz (granica DE) → A4 → A13 → Berlin: ~353 km</li>
+      <li>Wyjazd 16:00 → Berlin obwodnica ok. 22:00–22:30</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: okolice Berlina (południe/zachód)</strong><br>
+        Stellplatz lub parking przy stacji A10/A24 na wylocie z Berlina w kierunku Hamburga. Park4Night: „Berlin Wohnmobil Süd". Kilka opcji przy Müggelsee lub przy A10.
+      </div>
+    </div>
+    <div class="tip">Katowice–Gliwice o 16:00 to potencjalny korek — wyjedź chwilę wcześniej lub miej cierpliwość na S1. Po 18:00 autostrady spokojne.</div>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-dojazd">
+    <span class="d">Pt 4 IX</span>
+    <span class="daynum">D2</span>
+    <span class="emoji">⛴️</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Berlin → Hamburg → Hirtshals + Prom 19:15 → Kristiansand</div>
+        <div class="day-subtitle">A24 Hamburg → E45 Jutlandia → krótka przeprawa 2h 15min</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">792 km</span>
+        <span class="badge badge-hard">Długi dzień jazdy</span>
+        <span class="badge badge-prom">Prom 19:15</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li>Berlin → Hamburg (A24): ~295 km</li>
+      <li>Hamburg → Hirtshals (E45 przez całą Jutlandię): <strong>513 km</strong> — uwaga, dużo więcej niż się wydaje!</li>
+      <li>Wyjazd z Berlina ok. 7:00 → Hamburg ~10:00 → Hirtshals ~15:30 — masz czas</li>
+      <li><strong>Zatankuj do pełna w Danii</strong> — paliwo w Norwegii jest 2× droższe</li>
+      <li>Fjord Line <strong>19:15</strong> Hirtshals → Kristiansand: przeprawa <strong>2h 15min</strong> → przybycie ~21:30. Bez kajuty.</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Kristiansand — okolice terminalu promowego</strong><br>
+        Przybycie ~21:30 — parking przy nabrzeżu lub Park4Night: „Kristiansand havn". Jutro rano spokojny drive do Preikestolen (259 km, 4h).
+      </div>
+    </div>
+    <div class="info">Fjord Line Hirtshals → Kristiansand (2h 15min, bez kajuty): sprawdź cenę na fjordline.com — znacznie tańszy niż nocny prom do Stavanger. Rezerwuj z wyprzedzeniem — miejsca dla kamperów ograniczone na każdym kursie.</div>
+  </div>
+</div>
+
+<!-- ═══ ZACHODNIA NORWEGIA ═══ -->
+<div class="section-label">Zachodnia Norwegia — Preikestolen &amp; Trolltunga</div>
+
+<div class="day">
+  <div class="day-num c-dojazd">
+    <span class="d">Sob 5 IX</span>
+    <span class="daynum">D3</span>
+    <span class="emoji">🚗</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Kristiansand → E39 → Stavanger → Preikestolen</div>
+        <div class="day-subtitle">Pierwsze norweskie fiordy — E39 wzdłuż wybrzeża</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">259 km</span>
+        <span class="badge badge-relax">4h 19min · lekki dzień</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li>Kristiansand → Stavanger (E39): ~222 km, ~3.5h — droga wzdłuż fjordów, tunele i mosty, pierwsze widoki Norwegii</li>
+      <li><strong>Stavanger</strong> (opcjonalny postój): Gamle Stavanger — drewniane białe domy, śniadanie w kawiarni; zatankuj paliwo</li>
+      <li>Stavanger → <strong>Preikestolen trailhead (Jørpeland)</strong>: 37 km przez tunel Ryfast lub Rv13</li>
+      <li>Wyjdź z Kristiansand ok. 8:30 → Preikestolen ~13:00. Popołudnie na odpoczynek przed jutrzejszym trekiem</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Jørpeland / przy trailhead Preikestolen</strong><br>
+        Preikestolen Fjordcamping lub dziko przy Refsvatnet. Park4Night: „Preikestolen camper". Jutro wstajecie o 5:30 — śpij wcześnie!
+      </div>
+    </div>
+    <div class="tip">E39 Kristiansand → Stavanger ma odcinki wolne (70 km/h) przez tunele i serpentynyI może zawierać krótkie promy (Lauvvik–Oanes lub zastąpione tunelem Ryfast). Sprawdź aktualną trasę na maps.google.com przed wyjazdem.</div>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-trek">
+    <span class="d">Nd 6 IX</span>
+    <span class="daynum">D4</span>
+    <span class="emoji">🥾</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">PREIKESTOLEN → Odda</div>
+        <div class="day-subtitle">Trek Kazalnica nad Lysefjord + jazda do Odda</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-trek">Trek 3–4h</span>
+        <span class="badge badge-km">202 km</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li><strong>Start o 6:00</strong> — unikasz tłumów (lipcowe masy, wrzesień spokojniej)</li>
+      <li>8 km round trip, 334m D+, 3–4h. Widok na Lysefjord z 604m n.p.m.</li>
+      <li>Powrót do kampera ~11:00 → Rv13 przez Ryfylke → Odda: 202 km (3.7h)</li>
+      <li>Po drodze: przełom doliny Suldal, widok na Sandsfjord</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Odda / wzdłuż Sørfjord</strong><br>
+        Park4Night przy Sørfjord (ramię Hardangerfjord) — kilka dzikich miejsc przy wodzie. Alternatywa: Odda Camping przy centrum.
+      </div>
+    </div>
+    <a href="#atr-preikestolen" class="atr-link">↓ Szczegółowy opis: Preikestolen</a>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-relax">
+    <span class="d">Pon 7 IX</span>
+    <span class="daynum">D5</span>
+    <span class="emoji">⛰️</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Odda — przygotowanie do Trolltungi</div>
+        <div class="day-subtitle">Dzień buforowy + Vøringsfossen</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">~80 km</span>
+        <span class="badge badge-relax">Relax</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li><strong>Vøringsfossen</strong> — jeden z najpiękniejszych wodospadów Norwegii, droga przez Hardangervidda (Rv7)</li>
+      <li>Sprawdź prognozę na jutro na <strong>yr.no</strong> — jeśli jutro zła pogoda, zamień D5↔D6</li>
+      <li>Przygotuj plecaki: ciepłe warstwy, gore-tex, kijki, czołówka, jedzenie na 10h</li>
+      <li><strong>Kup bilet shuttle bus</strong> na trolltunga.com — kamper parkuje w P1 Tyssedal, shuttle jedzie do trailhead P3 Skjeggedal (kamper nie wjedzie na P2/P3 — za wąska droga). Zarezerwuj miejsce w shuttle!</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Odda Camping</strong><br>
+        Kamper nie może nocować przy P1/P2/P3 — Odda Camping (centrum Odda, ~15 min od P1 Tyssedal) to najbliższa opcja z prysznicem. Rano wstajecie o 5:00, jedziecie do P1 Tyssedal, shuttle na górę.
+      </div>
+    </div>
+    <a href="#atr-voringsfossen" class="atr-link">↓ Szczegółowy opis: Vøringsfossen</a>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-trek">
+    <span class="d">Wt 8 IX</span>
+    <span class="daynum">D6</span>
+    <span class="emoji">👅</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">TROLLTUNGA — Język Trola</div>
+        <div class="day-subtitle">27 km, ~1 000m D+, 8–10h — must-have całego wyjazdu</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-trek">Trek 8–10h</span>
+        <span class="badge badge-km">0 km jazdy</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li><strong>Odda → P1 Tyssedal</strong> (~15 min, wyjazd 5:00) → shuttle bus na górę → start trekkingu ~6:30</li>
+      <li>Szlak od trailhead (Skjeggedal/P3 poziom) → Mågelitopp → Trolltunga, ~27 km, trudny górski</li>
+      <li>8 IX = świetna data: brak śniegu, mniej turystów, dramatyczne zachmurzenie = piękne zdjęcia</li>
+      <li>Wrzesień: noce chłodniejsze, na szczycie może być 3–8°C — ciepłe warstwy obowiązkowo</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Odda</strong><br>
+        Odda Camping — prysznic i prąd po maratonie. Zasłużony odpoczynek przed jutrzejszą jazdą.
+      </div>
+    </div>
+    <div class="info">Sprawdź warunki dzień wcześniej na yr.no (punkt: Trolltunga, gmina Odda). Szlak bezpieczny do końca września, ale po deszczu skały śliskie.</div>
+    <a href="#atr-trolltunga" class="atr-link">↓ Szczegółowy opis: Trolltunga</a>
+  </div>
+</div>
+
+<!-- ═══ FIORDY ═══ -->
+<div class="section-label">Fiordy — Hardanger, Sognefjord, Geiranger</div>
+
+<div class="day">
+  <div class="day-num c-zwiedz">
+    <span class="d">Śr 9 IX</span>
+    <span class="daynum">D7</span>
+    <span class="emoji">🌊</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Odda → Flåm</div>
+        <div class="day-subtitle">Hardangerfjord Scenic Route → Borgund → Stegastein → Flåm</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">154 km</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li><strong>Hardanger most</strong> — jeden z najdłuższych mostów wiszących w Europie (1 310m), widok na Hardangerfjord</li>
+      <li><strong>Borgund Stavkirke</strong> — XII-wieczny kościół klepkowy (~60 km z Odda, warto!)</li>
+      <li><strong>Stegastein Viewpoint</strong> (Aurland) — taras widokowy 650m n.p.m. nad Aurlandsfjord, ikona norweskiej architektury</li>
+      <li>Flåm — urocza dolina przy Aurlandsfjord</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: wzdłuż Aurlandsfjord / okolice Flåm</strong><br>
+        Jedno z najpiękniejszych miejsc na dziki nocleg w Norwegii — Park4Night przy Aurlandsvangen daje nocleg bezpośrednio nad fiordem. Alternatywa: Flåm Camping.
+      </div>
+    </div>
+    <a href="#atr-flam" class="atr-link">↓ Szczegółowy opis: Flåm i Nærøyfjord</a>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-zwiedz">
+    <span class="d">Czw 10 IX</span>
+    <span class="daynum">D8</span>
+    <span class="emoji">🚤</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Flåm → Hellesylt</div>
+        <div class="day-subtitle">Wzdłuż Sognefjord — najdłuższy fiord świata</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">261 km</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li>Sognefjord — 204 km długości, do 1 308m głębokości (najdłuższy i najgłębszy fjord świata)</li>
+      <li>Opcja: <strong>Fjærland</strong> — miasteczko antykwariatów i lodowiec Bøyabreen widoczny z drogi</li>
+      <li>Opcja: <strong>Nigardsbreen</strong> — język lodowcowy Jostedalsbreen, zejście nad sam lód</li>
+      <li>Loen Skylift — kolejka na 1 011m n.p.m. (bilet ~295 NOK, piękny widok na Nordfjord)</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Hellesylt — przy terminalu promowym</strong><br>
+        Koniecznie blisko nabrzeża — rano bierzesz prom do Geiranger (kursy od 8:00). Park4Night: miejsca dziko przy wodzie w Hellesylt i Stranda.
+      </div>
+    </div>
+    <div class="tip">261 km po norweskich drogach fjordowych to ok. 4.5h — wyjdź z Flåm przed 9:00 żeby mieć czas na postoje.</div>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-teal">
+    <span class="d">Pt 11 IX</span>
+    <span class="daynum">D9</span>
+    <span class="emoji">🌀</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Geiranger → Trollstigen → Atlantic Road → Trondheim</div>
+        <div class="day-subtitle">Najlepszy dzień trasy — trzy ikony Norwegii jednego dnia</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">~420 km + prom 1h</span>
+        <span class="badge badge-hard">Dużo atrakcji</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li><strong>Prom Hellesylt → Geiranger:</strong> kurs 8:00 lub 9:30 (~100 NOK/os), 1h — UNESCO Geirangerfjord</li>
+      <li><strong>Geiranger:</strong> wodospad Siedem Sióstr, Zalotnik. Opcja: Dalsnibba toll road (1 500m n.p.m., widok z góry)</li>
+      <li><strong>Trollstigen</strong> — 11 zakrętów, punkt widokowy, most nad kaskadą Stigfossen</li>
+      <li>Åndalsnes → Molde → <strong>Atlantic Road</strong> — 8 km mostów przez morze (na trasie E39, bez dużego objazdu)</li>
+      <li>Kristiansund → E39 → Trondheim. Łączny dystans po drogach: ~376–420 km (zależy od opcjonalnych detourów)</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: okolice Trondheim</strong><br>
+        Trondheim Camping (Sluppenvegen, kampery welcome) lub Stellplatz nad Nidelva. Park4Night: „Trondheim camper".
+      </div>
+    </div>
+    <div class="tip">Wyjdź z promu jak najwcześniej — masz Geiranger + Trollstigen + Atlantic Road. Trollstigen: jedź powoli, wąska droga z mijankami. Kamper ≤6m = bez problemów (max 12,4m).</div>
+    <a href="#atr-geiranger" class="atr-link">↓ Geirangerfjord</a><a href="#atr-trollstigen" class="atr-link">↓ Trollstigen</a><a href="#atr-atlantic" class="atr-link">↓ Atlantic Road</a>
+  </div>
+</div>
+
+<!-- ═══ NA PÓŁNOC ═══ -->
+<div class="section-label">Na północ — E6 ku Lofotom</div>
+
+<div class="day">
+  <div class="day-num c-dojazd">
+    <span class="d">Sob 12 IX</span>
+    <span class="daynum">D10</span>
+    <span class="emoji">🛣️</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Trondheim → Mo i Rana</div>
+        <div class="day-subtitle">E6 north — za koło podbiegunowe (66°33'N)</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">472 km</span>
+        <span class="badge badge-hard">7.6h po norweskich drogach</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li>Trondheim rano: <strong>Nidarosdomen</strong> — gotycka katedra (30 min stop, opcja)</li>
+      <li>E6 north: Steinkjer, Mosjøen — piękne doliny norweskie, mnóstwo tuneli</li>
+      <li><strong>Koło Podbiegunowe (66°33'N)</strong> — centrum turystyczne przy E6, ~20 km za Mo i Rana. Zdjęcie obowiązkowe!</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Mo i Rana — dolina rzeki Rana</strong><br>
+        Park4Night: Krokstrand (~20 km na południe od Mo i Rana przy E6) — dziko nad rzeką Rana w wąskiej dolinie. Alternatywa: Mo i Rana Camping przy mieście.
+      </div>
+    </div>
+    <div class="tip">472 km po E6 w Norwegii to ~7.6h jazdy (średnia ~62 km/h przez tunele i serpentyny). Wyjdź z Trondheim rano i nie spiesz się — ta droga jest piękna.</div>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-prom">
+    <span class="d">Nd 13 IX</span>
+    <span class="daynum">D11</span>
+    <span class="emoji">🌊</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Mo i Rana → Bodø → Prom na Lofoty</div>
+        <div class="day-subtitle">Saltstraumen + wieczorny prom Bodø → Moskenes</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">231 km</span>
+        <span class="badge badge-prom">Prom ~3.5h</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li>Mo i Rana → Bodø (E6): 231 km, 3.6h — prosta, spokojna droga</li>
+      <li><strong>Saltstraumen</strong> (20 km za Bodø, E17): najsilniejszy wir morski na świecie — 400 mln m³ wody co 6h. <em>Sprawdź tabelę pływów — najlepiej 1h przed szczytem</em></li>
+      <li>Bodø: zakupy spożywcze — na Lofotach mniej sklepów i drożej</li>
+      <li><strong>Prom Bodø → Moskenes:</strong> wieczorny kurs 21:00, przybycie Moskenes ~00:15</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">⛴️</span>
+      <div class="sleep-text">
+        <strong>Nocleg: prom / parking przy terminalu Moskenes</strong><br>
+        Przybycie po północy — śpisz w kamperze przy nabrzeżu Moskenes. Duży bezpłatny parking przy terminalu. Rano startujsz na południe Lofotów.
+      </div>
+    </div>
+    <div class="info">Koszt promu Bodø → Moskenes: kamper + 2 os ≈ 400–550 PLN (Norled/Torghatten). Rezerwuj przez norled.no — podaj długość kampera. Wrzesień to jeszcze sezon.</div>
+    <a href="#atr-saltstraumen" class="atr-link">↓ Szczegółowy opis: Saltstraumen</a>
+  </div>
+</div>
+
+<!-- ═══ LOFOTY ═══ -->
+<div class="section-label">Lofoty — Archipelag na końcu świata (3 dni)</div>
+
+<div class="day">
+  <div class="day-num c-lofoty">
+    <span class="d">Pon 14 IX</span>
+    <span class="daynum">D12</span>
+    <span class="emoji">🏝️</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">LOFOTY — południe archipelagu</div>
+        <div class="day-subtitle">Moskenes · Å · Nusfjord · Reine · Hamnøy</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-lofoty">Lofoty D1</span>
+        <span class="badge badge-km">~60 km</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li><strong>Å</strong> — koniec drogi E10, klimat końca świata, Norsk Fiskeværsmuseum</li>
+      <li><strong>Nusfjord</strong> — najstarsza zachowana wioska rybacka Lofotów (wstęp ~100 NOK), rorbu nad wodą</li>
+      <li><strong>Reine</strong> — fotograficznie najpiękniejsze miejsce Lofotów. Reinebringen (434m, trek ~1h w górę) — widok z góry</li>
+      <li><strong>Hamnøy</strong> — czerwone rorbu na palach, kultowe zdjęcia z mostem i szczytami</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Reine / Sakrisøy</strong><br>
+        Park4Night: miejsca dziko z widokiem na charakterystyczne szczyty Lofotów. Łatwiej niż latem — wrzesień mniej turystów. Opcja: Sakrisøy Camping lub Moskenes Camping.
+      </div>
+    </div>
+    <div class="info">Wrzesień 14–16 = pierwsze realne szanse na ZORZĘ POLARNĄ (68°N, ciemne noce wracają). SpaceWeatherLive lub Aurora Forecast app. KP index ≥3 + czyste niebo = wychodź o 22:00–02:00.</div>
+    <a href="#atr-lofoten" class="atr-link">↓ Szczegółowy opis: Lofoty</a>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-lofoty">
+    <span class="d">Wt 15 IX</span>
+    <span class="daynum">D13</span>
+    <span class="emoji">🎣</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">LOFOTY — środkowa część</div>
+        <div class="day-subtitle">Flakstad · Ramberg · Vestvågøy · Lofotr</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-lofoty">Lofoty D2</span>
+        <span class="badge badge-km">~80 km</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li><strong>Flakstad beach</strong> — biały piasek i turkusowa woda (tak, w Norwegii!). Niesamowite</li>
+      <li><strong>Ramberg</strong> — kolejna biała plaża, mniej znana i spokojniejsza</li>
+      <li><strong>Lofotr Viking Museum</strong> (Vestvågøy) — rekonstrukcja największej osady wikingów, wstęp ~200 NOK (opcja)</li>
+      <li><strong>Stamsund</strong> — urocza miejscowość z drewnianymi domkami nad wodą</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Vestvågøy / Leknes area</strong><br>
+        Park4Night w okolicach Leknes lub Stamsund — kilka miejsc dziko przy fjordach. Alternatywa: Lofoten Camping Storvatnet.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-lofoty">
+    <span class="d">Śr 16 IX</span>
+    <span class="daynum">D14</span>
+    <span class="emoji">🦅</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">LOFOTY — północ + wyjście → Narvik</div>
+        <div class="day-subtitle">Henningsvær · Kabelvåg · Svolvær → E10 → Narvik</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-lofoty">Lofoty D3</span>
+        <span class="badge badge-km">222 km (Svolvær → Narvik)</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li><strong>Henningsvær</strong> — miasteczko rozrzucone na kilku wysepkach, maleńka marina, kawiarnia Klatringen</li>
+      <li><strong>Kabelvåg</strong> — historyczne centrum Lofotów, Lofotakvariet (akwarium z miejscową fauną)</li>
+      <li><strong>Svolvær</strong> — stolica Lofotów, zakupy, zatankuj paliwo</li>
+      <li>Wieczór: <strong>E10 east</strong> → mosty przez cieśniny → ląd stały → Narvik. 222 km (3.6h)</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Narvik</strong><br>
+        Narvik Camping lub dziko przy Ofotfjord z widokiem na góry. Park4Night: „Narvik camper". Narvik = brama do Szwecji przez E6 south.
+      </div>
+    </div>
+    <div class="tip">Wyjedź ze Svolvær ok. 16:00 → Narvik ~19:30–20:00. Jeszcze jasno (zachód ok. 20:30 w połowie września). Jutro długi dzień jazdy — idź spać wcześnie.</div>
+  </div>
+</div>
+
+<!-- ═══ POWRÓT ═══ -->
+<div class="section-label">Powrót — E10/E4 Szwecja → Ystad → Świnoujście</div>
+
+<div class="info" style="margin-bottom:14px;">
+  <strong>Trasa:</strong> Narvik → E10 east (Riksgränsen/Kiruna) → E4 south (Luleå → Sundsvall → Stockholm → Malmö) → E65 → Ystad → Polferries 23:50 → Świnoujście → Ustroń. Łącznie <strong>~2 042 km</strong> (D15–D17). Max dzień: D16 = 11.4h (2 kierowców). Prom Polferries Ystad → Świnoujście 23:50, ~8h.
+  <br><small>Porzucona alternatywa: Norway E6 via Trondheim + Unity Line Trelleborg — łącznie 1 971 km, ale D17 aż 14.4h vs 11.4h w tej trasie.</small>
+</div>
+
+<div class="day">
+  <div class="day-num c-powrot">
+    <span class="d">Czw 17 IX</span>
+    <span class="daynum">D15</span>
+    <span class="emoji">🇸🇪</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Narvik → E10 east → Kiruna → Gällivare → Luleå</div>
+        <div class="day-subtitle">Wschód Laplandii — najkrótszy i najspokojniejszy dzień powrotu</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">515 km</span>
+        <span class="badge badge-relax">7.1h · spokojny dzień</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li>Narvik → <strong>Riksgränsen</strong> (~100 km, E10): granica norwesko-szwedzka, widok na Kebnekaise</li>
+      <li><strong>Kiruna</strong> (~175 km): miasto górnicze przenoszone ze względu na kopalnię LKAB. Icehotel w Jukkasjärvi (17 km z trasy, opcja)</li>
+      <li>Kiruna → <strong>Gällivare → Luleå</strong> (E10/E4 north): Laponia szwedzka, jeziora, nieskończone lasy, inny świat</li>
+      <li>Luleå: miasto na Zatoce Botnickiej — <strong>zatankuj do pełna</strong> (jutro długi dzień)</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Luleå</strong><br>
+        Luleå Camping (Arcus, nad Zatoką Botnicką) lub Park4Night przy centrum. Wyjdź z Narwiku ok. 7:00 → Luleå ~14:00–15:00. Spokojne popołudnie i wczesna kolacja — jutro wyjazd o 6:00.
+      </div>
+    </div>
+    <div class="info">515 km / 7.1h (OSRM verified). E10 na początku wolna (70–80 km/h przez norweskie serpentyny), od Kiruna E4 już 110 km/h przez Szwecję. Najkrótszy dzień powrotu!</div>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-powrot">
+    <span class="d">Pt 18 IX</span>
+    <span class="daynum">D16</span>
+    <span class="emoji">🏎️</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Luleå → E4 south → Sundsvall → Uppsala → Stockholm</div>
+        <div class="day-subtitle">Najtrudniejszy dzień — 2 kierowców obowiązkowo, wyjazd 6:00</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">902 km</span>
+        <span class="badge badge-hard">11.4h — 2 kierowców!</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li>Luleå → <strong>Sundsvall</strong> (E4): <strong>531 km, 7h</strong> (OSRM) — E4 110 km/h wzdłuż wschodniego wybrzeża Szwecji. Postój w Sundsvall (~531 km, kawa + tankowanie)</li>
+      <li>Widok na <strong>Most Höga Kusten</strong> (~600 km od Luleå) — jeden z najdłuższych mostów wiszących Europy, nad fiordem Ångermanälven</li>
+      <li>Sundsvall → Gävle → <strong>Uppsala</strong> → <strong>Stockholm</strong>: ~371 km dalej na E4, płaska szybka droga</li>
+      <li>Stockholm: omijaj centrum — jedź obwodnicą E4/E20. Strefa Congestion Charge = opłata dla kamperów</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🌙</span>
+      <div class="sleep-text">
+        <strong>Nocleg: Stockholm (południe/obwodnica)</strong><br>
+        Camping Stockholm Söderort (Älvsjö, południe, przy E4/E20) lub Stellplatz w Flemingsberg. Unikaj centrum i parkingów strefowych. Jutro masz tylko 625 km do Ystad.
+      </div>
+    </div>
+    <div class="tip">902 km / 11.4h (OSRM). Wyjazd z Luleå o 6:00 → Stockholm ok. 17:30. System: zmiana kierowcy co 2h, przerwy max 20 min. Piątkowe korki przy wjeździe do Sztokholmu — jedź obwodnicą E4/E20 na południe miasta.</div>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-powrot">
+    <span class="d">Sob 19 IX</span>
+    <span class="daynum">D17</span>
+    <span class="emoji">😎</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Stockholm → E4 → Malmö → E65 → Ystad + Polferries 23:50</div>
+        <div class="day-subtitle">Komfortowy ostatni dzień — popołudnie wolne, wieczorny prom</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">625 km</span>
+        <span class="badge badge-relax">7.7h · arrive Ystad ~15:00</span>
+        <span class="badge badge-prom">Polferries 23:50</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li>Stockholm → <strong>Malmö</strong> (E4/E22): ~615 km, 7h — prosta autostrada przez całą południową Szwecję</li>
+      <li>Malmö → <strong>Ystad</strong> (E65): ~55 km, 35 min — przez Skånię</li>
+      <li>Wyjdź ze Sztokholmu ok. 7:00 → Ystad ok. 15:00–15:30. Cały wieczór wolny!</li>
+      <li><strong>Ales Stenar</strong> — skandynawski Stonehenge 10 min od E65: 59 głazów w kształcie łodzi wikingów na klifie nad morzem</li>
+      <li>Ystad stare miasto: klimatyczne miasteczko (tu kręcono Wallandera), dobre restauracje</li>
+      <li><strong>Polferries Ystad → Świnoujście:</strong> odprawa od ~21:30, odpłynięcie 23:50, ~8h przeprawy</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">⛴️</span>
+      <div class="sleep-text">
+        <strong>Nocleg: kajuta na Polferries</strong><br>
+        ~8h przeprawy. Przybycie Świnoujście D18 rano ~7:00. Spokojny sen — zasłużony po tygodniach przygody.
+      </div>
+    </div>
+    <div class="info">Polferries Ystad → Świnoujście: <strong>1 340 PLN</strong> (kamper + kierowca + 2. pasażer + kabina 2-os bez okna) — cena kompletna. Terminal Ystad: bądź ok. 21:30 (odprawa 2h przed 23:50). M/F Polonia.</div>
+  </div>
+</div>
+
+<div class="day">
+  <div class="day-num c-dojazd">
+    <span class="d">Nd 20 IX</span>
+    <span class="daynum">D18</span>
+    <span class="emoji">🏠</span>
+  </div>
+  <div class="day-body">
+    <div class="day-header">
+      <div>
+        <div class="day-title">Świnoujście → Ustroń — DO DOMU</div>
+        <div class="day-subtitle">S3 → A6 Szczecin → A4 → S1 → Ustroń</div>
+      </div>
+      <div class="badges">
+        <span class="badge badge-km">711 km</span>
+        <span class="badge badge-hard">7.9h</span>
+      </div>
+    </div>
+    <ul class="highlights">
+      <li>Polferries dobija Świnoujście ~7:00 — śniadanie na pokładzie, wyjedź ok. 7:30–8:00</li>
+      <li>S3 → A6 Szczecin → A4 Wrocław → Opole → A1 Gliwice → S1 → Ustroń</li>
+      <li>711 km, ok. 8h z przerwami — jeśli wyruszysz o 7:30, będziesz w domu ok. 15:30–16:00</li>
+    </ul>
+    <div class="sleep-box">
+      <span class="icon">🏠</span>
+      <div class="sleep-text"><strong>DOM! Ustroń 🎉</strong></div>
+    </div>
+    <div class="tip">711 km — nie 550 km jak wygląda na mapie. S3 ze Świnoujścia jest wąska do Szczecina, potem A4 przez całą Polskę. Realnie 8–9h z przerwami.</div>
+  </div>
+</div>
+
+<!-- ═══ OPŁATY DROGOWE ═══ -->
+<div class="section-label">Opłaty drogowe — Norwegia i Szwecja</div>
+
+<div class="cost-card">
+  <table>
+    <thead>
+      <tr><th>Miejsce / odcinek</th><th>Co to jest</th><th>Klasa 1 (≤3,5t DMC ✓)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>E39 Kristiansand → Stavanger</strong><br><small>D3</small></td>
+        <td>Kilka stacji bompenger przez Vest-Agder i Rogaland</td>
+        <td>50–100 NOK</td>
+      </tr>
+      <tr style="background:#fff9e8;">
+        <td><strong>Ryfast — Ryfylketunnelen</strong><br><small>D3: Stavanger → Jørpeland (Preikestolen)</small></td>
+        <td>Najdłuższy podwodny tunel drogowy świata — 14,4 km, 292 m głębokości. Otwarty 2019. D4 wraca przez Rv13 — nie wracacie tym samym tunelem.</td>
+        <td><strong>~47 NOK</strong><br><small>(jednorazowo)</small></td>
+      </tr>
+      <tr>
+        <td><strong>Rv13 Jørpeland → Odda</strong><br><small>D4</small></td>
+        <td>Kilka mniejszych stacji przez Ryfylke i Suldal</td>
+        <td>25–50 NOK</td>
+      </tr>
+      <tr>
+        <td><strong>Hardangerbrua lub Rv7</strong><br><small>D7: Odda → Flåm</small></td>
+        <td>Most nad Hardangerfjord (E16) — zależy od wybranego wariantu trasy.</td>
+        <td>30–50 NOK</td>
+      </tr>
+      <tr>
+        <td><strong>Okolice Flåm / Sognefjord</strong><br><small>D7–D8</small></td>
+        <td>Możliwe mniejsze stacje na Rv5/Rv55. Promy (Dragsvik–Hella itp.) to OSOBNY koszt od drogowych.</td>
+        <td>0–40 NOK</td>
+      </tr>
+      <tr>
+        <td><strong>Trondheim — ring tolowy</strong><br><small>D9 wjazd, D10 wyjazd</small></td>
+        <td>Trondheimsringen — kilka przejazdów przy wjeździe od południa i wyjeździe na E6 north. ~10–15 NOK/przejazd (Kl. 1).</td>
+        <td>50–80 NOK</td>
+      </tr>
+      <tr style="background:#fff9e8;">
+        <td><strong>E6 Trondheim → Mo i Rana</strong><br><small>D10</small></td>
+        <td>Kilka stacji bompenger na długim odcinku E6 przez Helgeland. Najdłuższy odcinek płatny na trasie.</td>
+        <td><strong>80–150 NOK</strong></td>
+      </tr>
+      <tr>
+        <td><strong>E6 Mo i Rana → Bodø</strong><br><small>D11</small></td>
+        <td>E6 przez Saltfjellet + ring tolowy Bodø przy wjeździe do miasta</td>
+        <td>50–100 NOK</td>
+      </tr>
+      <tr>
+        <td><strong>E10 Lofoty — mosty i tunele</strong><br><small>D12–D14</small></td>
+        <td>Mosty między wyspami (Gimsøystraumen, Sundklakkstraumen) — <strong>bezpłatne</strong>. Lofast (tunel ląd → Lofoty, E10 przez Bjerkvik) — dług spłacony, prawdopodobnie bezpłatny. Zweryfikuj na vegvesen.no przed wyjazdem.</td>
+        <td>0–25 NOK</td>
+      </tr>
+      <tr>
+        <td><strong>E10 Narvik area</strong><br><small>D14–D15</small></td>
+        <td>Wyjazd z Lofotów przez E10 do Narwiku — brak istotnych opłat</td>
+        <td>0–15 NOK</td>
+      </tr>
+      <tr style="background:#e8f6f3;">
+        <td><strong>Szwecja E4 — autostrada</strong><br><small>D15–D17</small></td>
+        <td><strong>Brak winiety! E4 bezpłatna.</strong> Jedyny wyjątek: podatek kongestionowy w Sztokholmie (D16 = piątek, 06:00–22:30). Omiń centrum obwodnicą E4/E20 — Essingeleden jest poza strefą.</td>
+        <td>0–100 SEK<br><small>(~0–40 PLN)</small></td>
+      </tr>
+      <tr class="total">
+        <td colspan="2"><strong>ŁĄCZNIE Norwegia — Klasa 1 (DMC ≤3,5t)</strong></td>
+        <td><strong>~340–650 NOK<br>≈ 130–250 PLN</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="info" style="margin-bottom:6px;">
+  <strong>Wasz kamper: DMC ≤3,5t = Klasa 1</strong> — najtańsza kategoria w norweskim systemie opłat. Długość 5,96 m mieści się w kategorii "do 6 m" przy rezerwacjach promów. Szerokość 2,1 m — standardowy kamper, bez ograniczeń na trasie (Trollstigen max 12,4 m długości).
+</div>
+<div class="info" style="margin-bottom:14px;">
+  <strong>EasyGo</strong> (easygo.no) — rekomendowane rozwiązanie dla kamperów. Jedna rejestracja obsługuje tolly w Norwegii, Szwecji i Danii. Kamera czyta tablicę, opłaty pobierane automatycznie z depozytu. Dyskont ~20% vs. rozliczenie pocztą. <strong>Zarejestruj się minimum 2–3 tygodnie przed wyjazdem.</strong> EasyGo pokrywa też szwedzki podatek kongestionowy w Sztokholmie.
+</div>
+
+<!-- ═══ BUDGET ═══ -->
+<div class="section-label">Szacunkowy budżet promów</div>
+
+<div class="cost-card">
+  <table>
+    <thead>
+      <tr><th>Armator</th><th>Trasa</th><th>Kurs</th><th>Czas</th><th>Szacunek (PLN)</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Fjord Line</td>
+        <td>Hirtshals → Kristiansand</td>
+        <td>19:15</td>
+        <td>2h 15min</td>
+        <td><strong>210 € (~870 PLN) ✓</strong></td>
+      </tr>
+      <tr>
+        <td>Fjord1 / Norled</td>
+        <td>Hellesylt → Geiranger</td>
+        <td>8:00, 9:30…</td>
+        <td>1h</td>
+        <td><strong>100–160</strong></td>
+      </tr>
+      <tr>
+        <td>Norled / Torghatten</td>
+        <td>Bodø → Moskenes (Lofoty)</td>
+        <td>21:00</td>
+        <td>3h 15min</td>
+        <td><strong>735 NOK (~280 PLN) ✓</strong><br><small>pojazd + 2 os, komplet</small></td>
+      </tr>
+      <tr style="background:#eafaf1;">
+        <td><strong>Polferries</strong></td>
+        <td><strong>Ystad → Świnoujście</strong></td>
+        <td><strong>23:50</strong></td>
+        <td>~8h nocny</td>
+        <td><strong>1 340 PLN ✓</strong><br><small>kamper + kierowca + 2. os + kabina, komplet</small></td>
+      </tr>
+      <tr class="total">
+        <td colspan="4"><strong>SUMA promów</strong> (2 os + kajuta, potwierdzone)</td>
+        <td><strong>~2 590–2 650 PLN</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ KALENDARŹ SKRÓCONY ═══ -->
+<div class="section-label">Kalendarz jednym rzutem</div>
+<div class="cost-card">
+  <table>
+    <thead><tr><th>Dzień</th><th>Data</th><th>Odcinek</th><th>km (drogi)</th></tr></thead>
+    <tbody>
+      <tr><td>D1</td><td>Czw 3 IX (16:00)</td><td>Ustroń → Berlin (A4/Wrocław)</td><td>566</td></tr>
+      <tr><td>D2</td><td>Pt 4 IX</td><td>Berlin → Hirtshals + prom 19:15 → Kristiansand</td><td>792</td></tr>
+      <tr><td>D3</td><td>Sob 5 IX</td><td>Kristiansand → E39 → Stavanger → Preikestolen</td><td>259</td></tr>
+      <tr><td>D4</td><td>Nd 6 IX</td><td>PREIKESTOLEN + Odda</td><td>202</td></tr>
+      <tr><td>D5</td><td>Pon 7 IX</td><td>Odda relax / Vøringsfossen</td><td>~80</td></tr>
+      <tr><td>D6</td><td>Wt 8 IX</td><td>TROLLTUNGA 🥾</td><td>0</td></tr>
+      <tr><td>D7</td><td>Śr 9 IX</td><td>Odda → Flåm</td><td>154</td></tr>
+      <tr><td>D8</td><td>Czw 10 IX</td><td>Flåm → Hellesylt</td><td>261</td></tr>
+      <tr><td>D9</td><td>Pt 11 IX</td><td>Geiranger → Trollstigen → Atlantic Road → Trondheim</td><td>~420</td></tr>
+      <tr><td>D10</td><td>Sob 12 IX</td><td>Trondheim → Mo i Rana</td><td>472</td></tr>
+      <tr><td>D11</td><td>Nd 13 IX</td><td>Mo i Rana → Bodø + prom → Lofoty</td><td>231</td></tr>
+      <tr><td>D12</td><td>Pon 14 IX</td><td>LOFOTY południe 🏝️</td><td>~60</td></tr>
+      <tr><td>D13</td><td>Wt 15 IX</td><td>LOFOTY środek 🏝️</td><td>~80</td></tr>
+      <tr><td>D14</td><td>Śr 16 IX</td><td>LOFOTY północ + exit → Narvik 🏝️</td><td>222</td></tr>
+      <tr><td>D15</td><td>Czw 17 IX</td><td>Narvik → E10 → Kiruna → E4 → Luleå 🇸🇪</td><td>515</td></tr>
+      <tr style="background:#fdecea;"><td>D16</td><td>Pt 18 IX</td><td>Luleå → E4 → Sundsvall → Stockholm ⚠️ najdłuższy dzień</td><td>902</td></tr>
+      <tr style="background:#eafaf1;"><td>D17</td><td>Sob 19 IX</td><td>Stockholm → E4 → Malmö → Ystad + Polferries 23:50 ✓</td><td>625</td></tr>
+      <tr><td>D18</td><td>Nd 20 IX</td><td>Świnoujście → Ustroń 🏠</td><td>711</td></tr>
+      <tr class="total"><td colspan="3"><strong>ŁĄCZNIE (bez promów)</strong></td><td><strong>~6 540 km</strong></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══ REZERWACJE ═══ -->
+<div class="section-label">Rezerwacje — zrób z wyprzedzeniem</div>
+<div class="checklist">
+  <h3>📋 Lista obowiązkowych rezerwacji i rejestracji</h3>
+  <ul>
+    <li>
+      <strong>EasyGo — rejestracja do opłat drogowych</strong> — zrób minimum 3 tygodnie przed wyjazdem<br>
+      <span>easygo.no → "Foreign vehicle" → podaj nr rej. i DMC kampera → wpłać depozyt (~500–800 PLN). Obsługuje wszystkie norweskie tolly + szwedzki podatek kongestionowy Sztokholm. Bez EasyGo rachunek przychodzi pocztą z opóźnieniem miesięcy.</span>
+    </li>
+    <li>
+      <strong>Fjord Line Hirtshals → Kristiansand 19:15</strong> — rezerwuj 2–3 miesiące wcześniej<br>
+      <span>fjordline.com → Camper/Caravan, podaj długość pojazdu. Przeprawa 2h 15min. Wrzesień = shoulder season.</span>
+    </li>
+    <li>
+      <strong>Prom Hellesylt → Geiranger</strong> — rezerwacja zalecana w sezonie<br>
+      <span>fjord1.no lub visitgeiranger.com → kamper/samochód + 2 os., kurs 8:00 lub 9:30. Przeprawa ~1h (UNESCO). Cena: ~100 NOK/os + pojazd. Bez rezerwacji: ryzyko kolejki, szczególnie rano.</span>
+    </li>
+    <li>
+      <strong>Trolltunga — shuttle bus z P1 Tyssedal</strong> — rezerwacja online obowiązkowa<br>
+      <span>trolltunga.com → zarezerwuj shuttle bus (kamper nie wjedzie na P2/P3). Parking P1 Tyssedal — tylko dzienny, nocleg zabroniony. Nocleg: Odda Camping dzień wcześniej (D5).</span>
+    </li>
+    <li>
+      <strong>Prom Bodø → Moskenes</strong> — rezerwuj 4–6 tygodni wcześniej<br>
+      <span>norled.no → Bodø–Moskenes. Podaj długość kampera dokładnie. Wrzesień to jeszcze sezon — miejsca dla dużych pojazdów są ograniczone.</span>
+    </li>
+    <li>
+      <strong>Polferries Ystad → Świnoujście 23:50</strong> — rezerwuj 3–4 tygodnie wcześniej<br>
+      <span>polferries.pl → pojazd pow. 2,5m wys. do 10m dł. + kierowca + 2. pasażer + kabina 2-os bez okna = 1 340 PLN (cena kompletna). Bądź w terminalu ok. 21:30. M/F Polonia.</span>
+    </li>
+    <li>
+      <strong>Winieta / toll — Dania i Szwecja</strong> — brak winiety w obu krajach<br>
+      <span>Dania: autostrady bezpłatne dla pojazdów ≤3,5t. Szwecja: E4 bezpłatna, brak winiety. Jedyny koszt: podatek kongestionowy Sztokholm (D16, piątek) — pokrywa EasyGo.</span>
+    </li>
+  </ul>
+</div>
+
+<!-- ═══ TIPS ═══ -->
+<div class="section-label">Praktyczne wskazówki</div>
+<div class="checklist">
+  <h3>🧭 Info przed wyjazdem</h3>
+  <ul>
+    <li>
+      <strong>Park4Night</strong> — podstawowa aplikacja. Filtruj: „free", „motorhome". Norweskie prawo natury (Allemannsretten): nocleg dziko dozwolony >150m od zabudowań, max 2 noce w tym samym miejscu.<br>
+      <span>W Szwecji podobnie (Allemansrätten) — całkowita swoboda w naturze.</span>
+    </li>
+    <li>
+      <strong>Paliwo — uwaga na ceny!</strong> Norwegia: ~22–24 NOK/L (~8–9 PLN/L). Tankuj do pełna w Danii (D2) i w Bodø przed Lofotami. Na Lofotach są stacje, ale ceny wyższe.<br>
+      <span>Szwecja na powrocie: ~16–18 SEK/L (~6.5–7 PLN/L) — tankuj w Göteborgu/Malmö przed promem.</span>
+    </li>
+    <li>
+      <strong>yr.no</strong> — norweski serwis pogodowy, najdokładniejszy dla Norwegii (lepszy niż AccuWeather w górach). Sprawdzaj przed Trolltungą i Preikestolem.<br>
+      <span>Aplikacja: Yr — zainstaluj przed wyjazdem.</span>
+    </li>
+    <li>
+      <strong>Zorza polarna na Lofotach</strong> — realnie od ok. 13–14 IX. Aplikacja: SpaceWeatherLive. KP index ≥3 + czyste niebo + ciemno = wychodź ok. 22:00–02:00.<br>
+      <span>Plaże Flakstad/Ramberg i okolice Reine świetne do fotografowania zorzy (odblask w wodzie).</span>
+    </li>
+    <li>
+      <strong>D17 — Trondheim → Trelleborg (1 075 km)</strong> — najcięższy dzień. System: jeden kieruje, drugi śpi. Zmiana co 2h. Wyjazd 5:00, przerwy tylko na stacje paliw. Kawa termosowa obowiązkowa.<br>
+      <span>Bez dwóch kierowców ten dzień jest niemożliwy do wykonania bezpiecznie.</span>
+    </li>
+    <li>
+      <strong>Waluta</strong> — Norwegia: NOK, Szwecja: SEK. Kartą płacisz wszędzie — gotówka prawie zbędna. Sprawdź kurs bankowy vs kantor przed wyjazdem.<br>
+      <span>W Danii własna korona DKK (nie EUR) — ale kartą wszędzie.</span>
+    </li>
+    <li>
+      <strong>Trollstigen (D9)</strong> — zamknięty dla pojazdów >12,4m. Kamper ≤6m = bez problemu. Jedź powoli, wąskie mijania z autobusami turystycznymi. Otwarte maj–październik.<br>
+    </li>
+  </ul>
+</div>
+
+<!-- ═══ ATRAKCJE — OPISY ═══ -->
+<div class="section-label">Atrakcje — szczegółowe opisy</div>
+
+<div class="atr-card" id="atr-preikestolen">
+  <div class="atr-card-header" style="background:linear-gradient(135deg,#1e6e44,#2d9c5f);">
+    <span class="atr-emoji">🪨</span>
+    <div>
+      <div class="atr-day-badge">D4 · Nd 6 IX</div>
+      <h3>Preikestolen — Kazalnica Kaznodziei</h3>
+      <div class="atr-meta">Lysefjord, Rogaland · 604 m n.p.m. · trek 8 km RT, 3–4h</div>
+    </div>
+  </div>
+  <div class="atr-body">
+    <p>Płaska skalna półka 604 metrów nad taflą Lysefjord — jedna z najbardziej rozpoznawalnych skał świata. Plateau ma wymiary ok. 25×25 metrów i nie ma żadnych barierek. Widok: 42-kilometrowy fiord przecinający krajobraz jak lustro między pionowymi ścianami. Jedna z tych atrakcji, które na żywo są jeszcze większe niż na zdjęciach.</p>
+    <p>Skała uformowała się podczas ostatniego zlodowacenia ok. 10 000 lat temu — lodowiec rozsadził granit wzdłuż naturalnych pęknięć, ale nie zdążył zepchnąć odłamanego bloku do fiordu. W płaskowyżu widoczne dwa poprzeczne pęknięcia biegnące w głąb. Geologowie szacują, że za kolejne ~10 000 lat blok w końcu się odłamie — na razie całkowicie stabilna.</p>
+    <p>Trek jest technicznie łatwy w porównaniu do Trolltungi — dobrze oznakowany, wyrównana nawierzchnia, brak ekspozycji na podejściu. Wrzesień to ideał: brak tłumów (lipiec: do 2 000 osób/dzień), dramatyczne norweskie niebo, liście zaczynają się barwić na podejściu przez brzozowy las.</p>
+    <div class="atr-stats">
+      <div class="atr-stat"><strong>Dystans</strong>8 km RT</div>
+      <div class="atr-stat"><strong>Przewyższenie</strong>334 m D+</div>
+      <div class="atr-stat"><strong>Czas</strong>3–4h</div>
+      <div class="atr-stat"><strong>Wys. szczytu</strong>604 m n.p.m.</div>
+      <div class="atr-stat"><strong>Trudność</strong>Łatwa–Średnia</div>
+    </div>
+    <div class="atr-tip-box"><strong>Praktyczne:</strong> Start o 6:00 by mieć plateau dla siebie. Parking płatny ~250 NOK/dzień. Ciekawa alternatywa: rejs Lysefjord Boat z Stavanger pod skałę od dołu (~250 NOK) — zupełnie inne wrażenie z wody. Przy dobrej widoczności widać sylwetki ludzi na krawędzi z fiordu.</div>
+  </div>
+</div>
+
+<div class="atr-card" id="atr-trolltunga">
+  <div class="atr-card-header" style="background:linear-gradient(135deg,#1a5c38,#277a4e);">
+    <span class="atr-emoji">👅</span>
+    <div>
+      <div class="atr-day-badge">D6 · Wt 8 IX</div>
+      <h3>Trolltunga — Język Trola</h3>
+      <div class="atr-meta">Hardanger, Vestland · 1 100 m n.p.m. · trek 27 km RT, 8–12h</div>
+    </div>
+  </div>
+  <div class="atr-body">
+    <p>Pozioma skalna półka wysunięta kilka metrów w powietrze na wysokości 1 100 m n.p.m., 700 metrów nad jeziorem Ringedalsvatnet. Widok: lodowcowy krajobraz Hardangervidda, błękitne jezioro w dole, szczyty do 1 800 m dookoła. To najtrudniejsza z norweskich ikonicznych tras — wymagająca, ale bez wspinaczki, dostępna dla sprawnych piechurów.</p>
+    <p>Historia: skała uformowana gdy lodowiec rozsadził warstwowy granit, zostawiając wystającą półkę. Pierwsza udokumentowana wizyta: 1917 rok, przez kolejne dekady niemal nieznana. Dopiero wirusowe zdjęcie z 2010 roku (para tańcząca na krawędzi) wywindowało Trolltungę do globalnej sławy. Dziś w szczycie sezonu do 1 500 osób dziennie — wrzesień znacznie spokojniejszy.</p>
+    <p>Szlak startuje z P3 Skjeggedal (860 m n.p.m.) — ale kamper tam nie dojedzie (za wąska droga). Rozwiązanie: parking P1 Tyssedal + shuttle bus na górę (rezerwacja na trolltunga.com). Trasa: trailhead → Mågelitopp (1 248 m) → Trolltunga. Po drodze lodowcowe jeziorka, skały pokryte porostami, otwarte plateaux. We wrześniu brak śniegu, ale po deszczu granit bywa śliski — kijki i nieprzemakalne buty obowiązkowe.</p>
+    <div class="atr-stats">
+      <div class="atr-stat"><strong>Dystans</strong>27 km RT</div>
+      <div class="atr-stat"><strong>Przewyższenie</strong>~1 000 m D+</div>
+      <div class="atr-stat"><strong>Czas</strong>8–12h</div>
+      <div class="atr-stat"><strong>Wys. szczytu</strong>1 100 m n.p.m.</div>
+      <div class="atr-stat"><strong>Nad jeziorem</strong>700 m ekspozycji</div>
+    </div>
+    <div class="atr-tip-box"><strong>Kamper → logistyka:</strong> Nocleg D5 w Odda Camping. Wyjazd 5:00, parking P1 Tyssedal (~15 min), shuttle bus na górę (rezerwuj wcześniej na trolltunga.com). Start trekkingu ~6:30. Zabierz 2 L wody + jedzenie na 10h, ciepłe warstwy, goretex. Nie wyruszaj przy prognozie burzy — otwarty grzbiet = brak schronienia.</div>
+  </div>
+</div>
+
+<div class="atr-card" id="atr-voringsfossen">
+  <div class="atr-card-header" style="background:linear-gradient(135deg,#7b4800,#b36a00);">
+    <span class="atr-emoji">💧</span>
+    <div>
+      <div class="atr-day-badge">D5 · Pon 7 IX</div>
+      <h3>Vøringsfossen</h3>
+      <div class="atr-meta">Hardanger, Vestland · 182 m swobodnego spadku · dolina Måbødalen, Rv7</div>
+    </div>
+  </div>
+  <div class="atr-body">
+    <p>Rzeka Bjoreio spada 182 metrami swobodnego spadku do wąskiej skalnej doliny Måbødalen — jeden z najbardziej efektownych wodospadów Norwegii. Siła wody przez tysiąclecia wyżłobiła głęboki kanion o pionowych ścianach, które sprawiają że wodospad nie jest widoczny z drogi głównej — trzeba zjechać na specjalny parking.</p>
+    <p>Dwa punkty widokowe: <strong>górny</strong> (5 minut od parkingu, widok z perspektywy krawędzi — wodospad spada w przepaść i znika w mgle rozbryźgu) oraz <strong>dolny</strong> (zejście ~45 min po schodach do podnóża kanionu — cały wodospad widoczny jednocześnie, chmura mgiełki ochładza). We wrześniu przepływ mniejszy niż wiosenny szczyt, za to niebo dramatyczniejsze i znacznie mniej turystów. Tuż obok zabytkowy Hotel Fossli (1891) — jeden z pierwszych norweskich hoteli turystycznych.</p>
+    <div class="atr-stats">
+      <div class="atr-stat"><strong>Swobodny spadek</strong>182 m</div>
+      <div class="atr-stat"><strong>Rzeka</strong>Bjoreio</div>
+      <div class="atr-stat"><strong>Czas spacer górny</strong>5 min</div>
+      <div class="atr-stat"><strong>Czas spacer dolny</strong>~45 min RT</div>
+    </div>
+    <div class="atr-tip-box"><strong>Rada:</strong> Jadąc z Odda przez Rv7 na Hardangervidda — panorama płaskowyżu jest nie mniej piękna niż sam wodospad. Ten odcinek Rv7 (Hardangervidda) to jeden z najpiękniejszych przejazdów Norwegii — otwarta przestrzeń, jeziora, renifery przy drodze.</div>
+  </div>
+</div>
+
+<div class="atr-card" id="atr-flam">
+  <div class="atr-card-header" style="background:linear-gradient(135deg,#0d4f8a,#1a6db5);">
+    <span class="atr-emoji">🚂</span>
+    <div>
+      <div class="atr-day-badge">D7 · Śr 9 IX</div>
+      <h3>Flåm, Aurlandsfjord i Nærøyfjord</h3>
+      <div class="atr-meta">Sogn og Fjordane · Flåmsbana (1940) · Sognefjord UNESCO · Stegastein 650 m</div>
+    </div>
+  </div>
+  <div class="atr-body">
+    <p>Flåm leży u ujścia doliny Flåmsdalen do Aurlandsfjord — wąskiego ramienia Sognefjord, najdłuższego i najgłębszego fiordu świata (204 km długości, 1 308 m głębokości). Wioska jest bazą dla jednej z najpiękniejszych tras kolejowych na świecie.</p>
+    <p><strong>Flåmsbana:</strong> 20 km kolejki z Flåm (2 m n.p.m.) do Myrdal (866 m n.p.m.), budowanej w latach 1923–1940. 20 tuneli, nachylenie do 55‰ (bez zębatki — specjalne hamulce na każdym wagonie). Pociąg zatrzymuje się przy kaskadzie Kjosfossen gdzie tańczy „huldra" (efekt świetlny). Bilet w obie strony: ~450 NOK. Nawet sam przejazd kilku km daje poczucie skali budowli.</p>
+    <p><strong>Nærøyfjord (UNESCO):</strong> 17-kilometrowe ramię Sognefjord, miejscami tylko 250 m szerokości między pionowymi ścianami sięgającymi 1 700 m — wpisane na Listę UNESCO razem z Geirangerfjord w 2005 r. Rejs elektryczną łódką z Flåm (Fjord Tours, ~350 NOK). <strong>Stegastein Viewpoint</strong> (Aurland, 8 km od Flåm): szklany taras widokowy 650 m n.p.m. nad Aurlandsfjord, wspornik ze szkłem na dnie nad przepaścią — ikona norweskiej współczesnej architektury.</p>
+    <div class="atr-stats">
+      <div class="atr-stat"><strong>Sognefjord</strong>204 km / 1 308 m</div>
+      <div class="atr-stat"><strong>Nærøyfjord</strong>250 m szer. (UNESCO)</div>
+      <div class="atr-stat"><strong>Flåmsbana D+</strong>866 m</div>
+      <div class="atr-stat"><strong>Stegastein</strong>650 m n.p.m.</div>
+    </div>
+    <div class="atr-tip-box"><strong>Rada:</strong> Stegastein dostępny kamperem — Rv243 z Aurland, ~7 km, parking przy viewpoincie. Wieczorny nocleg nad Aurlandsfjord to szansa na wschód słońca odbijający się w zupełnie spokojnym fiordzie — jedno z najcichszych i najpiękniejszych miejsc Norwegii.</div>
+  </div>
+</div>
+
+<div class="atr-card" id="atr-geiranger">
+  <div class="atr-card-header" style="background:linear-gradient(135deg,#0c3d6e,#1a5fa0);">
+    <span class="atr-emoji">🌊</span>
+    <div>
+      <div class="atr-day-badge">D9 · Pt 11 IX</div>
+      <h3>Geirangerfjord — Światowe Dziedzictwo UNESCO</h3>
+      <div class="atr-meta">Møre og Romsdal · 15 km długości · UNESCO 2005 · Dalsnibba 1 476 m</div>
+    </div>
+  </div>
+  <div class="atr-body">
+    <p>Geirangerfjord to 15-kilometrowe ramię Storfjord, otoczone pionowymi ścianami do 1 500 m. Wpisany na Listę UNESCO razem z Nærøyfjord w 2005 roku jako jeden z najlepiej zachowanych i najpiękniejszych przykładów fiordów norweskich. Szmaragdowo-niebieska woda, kaskady, strome zbocza — krajobraz który wygląda jak z fantasy.</p>
+    <p><strong>Trzy słynne wodospady:</strong> <em>Siedem Sióstr (De Syv Søstrene)</em> — siedem równoległych kaskad spada z 410 m na zachodnią ścianę fiordu, każda swoim korytem (strumień zanika przy suszy). <em>Zalotnik (Friaren)</em> — naprzeciwko, pojedynczy „butelkowy" wodospad; legenda: pijak który próbuje zdobyć siedem sióstr. <em>Welon Ślubny (Brudesløret)</em> — cienka wstążka przy głębszym końcu fiordu.</p>
+    <p>Na zboczach fiordu zachowane opuszczone farmy (Skageflå, Knivsflå) widoczne z promu — swego czasu zamieszkałe, dostępne dziś tylko łodzią lub wspinaczką. <strong>Dalsnibba (1 476 m):</strong> płatna droga Nibbevegen (~150 NOK kamper, ~40 NOK/os), 11 km serpentyn. Z platformy widokowej cały fiord wygląda jak miniatura — absolutnie warte objazdu jeśli czas pozwala.</p>
+    <div class="atr-stats">
+      <div class="atr-stat"><strong>Długość fiordu</strong>15 km</div>
+      <div class="atr-stat"><strong>Siedem Sióstr</strong>410 m spadku</div>
+      <div class="atr-stat"><strong>Dalsnibba</strong>1 476 m n.p.m.</div>
+      <div class="atr-stat"><strong>Status</strong>UNESCO 2005</div>
+    </div>
+    <div class="atr-tip-box"><strong>Timing:</strong> Promy wycieczkowe (cruise ships) wchodzą rano i tłoczą Geiranger do ~14:00. Przyjechać z pierwszym promem o 8:00, zobaczyć fiord i wyjechać przed tłumem. Dalsnibba najlepiej po południu — mniej samochodów i złote światło na fiordzie.</div>
+  </div>
+</div>
+
+<div class="atr-card" id="atr-trollstigen">
+  <div class="atr-card-header" style="background:linear-gradient(135deg,#0d5464,#138097);">
+    <span class="atr-emoji">🌀</span>
+    <div>
+      <div class="atr-day-badge">D9 · Pt 11 IX</div>
+      <h3>Trollstigen — Drabina Troli</h3>
+      <div class="atr-meta">Romsdalen, Møre og Romsdal · 11 serpentyn · Stigfossen 320 m · otwarty maj–październik</div>
+    </div>
+  </div>
+  <div class="atr-body">
+    <p>Trollstigen to jedna z najbardziej dramatycznych dróg Europy: 11 ostrych zakrętów wspinających się 850 metrami po stromej ścianie doliny Romsdalen. Budowana 8 lat, otwarta przez króla Haakona VII w 1936 roku — ówczesny cud inżynieryjny. Nazwa "Drabina Troli" oddaje wygląd: z odległości wygląda jak drabina przystawiona do góry.</p>
+    <p>Centralny element krajobrazu: kaskada <strong>Stigfossen (320 m)</strong> spada tuż obok serpentyn i przechodzi pod mostem drogi — jadąc czujesz wilgotność i słyszysz szum. Centrum widokowe na szczycie (projekt Reiulf Ramstad Arkitekter) z betonowymi kładkami nad przepaścią i widokiem w dół na całą drogę — jak widokówka.</p>
+    <p>Ograniczenie: pojazdy do 12,4 m długości (kamper 5,96 m = brak problemu), zakaz dla przyczep powyżej pewnych rozmiarów. Otwarta zwykle maj–październik. Przy intensywnych opadach lub lodzie może być tymczasowo zamknięta — sprawdź vegvesen.no/trafikk rano. Wrzesień = w pełni bezpieczny.</p>
+    <div class="atr-stats">
+      <div class="atr-stat"><strong>Serpentyny</strong>11 zakrętów</div>
+      <div class="atr-stat"><strong>Przewyższenie</strong>850 m</div>
+      <div class="atr-stat"><strong>Stigfossen</strong>320 m</div>
+      <div class="atr-stat"><strong>Max pojazd</strong>12,4 m dł.</div>
+      <div class="atr-stat"><strong>Otwarta</strong>maj–październik</div>
+    </div>
+    <div class="atr-tip-box"><strong>Kierunek jazdy:</strong> Jedź z Geiranger/południa — centrum widokowe jest na szczycie od strony Åndalsnes (północ). Wjeżdżasz serpentynami, wychodzisz na górę i patrzysz skąd przyjechałeś. Potem zjazd stromą prostą w stronę Åndalsnes i dalej na Atlantic Road — cały D9 to nieprzerwany show.</div>
+  </div>
+</div>
+
+<div class="atr-card" id="atr-atlantic">
+  <div class="atr-card-header" style="background:linear-gradient(135deg,#1a2a4a,#2a4a7a);">
+    <span class="atr-emoji">🌉</span>
+    <div>
+      <div class="atr-day-badge">D9 · Pt 11 IX</div>
+      <h3>Atlanterhavsveien — Droga Atlantycka</h3>
+      <div class="atr-meta">Romsdal, Møre og Romsdal · 8 km · 8 mostów · bezpłatna droga publiczna</div>
+    </div>
+  </div>
+  <div class="atr-body">
+    <p>Atlanterhavsveien to 8-kilometrowa droga biegnąca przez szkiery i wysepki Morza Norweskiego, łącząca Vevang z Kårvåg. Osiem mostów (najdłuższy: Storseisundbrua — 260 m) przeskakuje z wysepki na wysepkę przez otwarte morze. Zbudowana w 1989 roku za 122 mln NOK. Uznana za „Budowę Stulecia" w Norwegii (2005) — i „najpiękniejszą trasę drivu na świecie" przez wiele rankingów.</p>
+    <p>W jesienno-zimowych sztormach fale przelewają się przez jezdnię mostów (droga automatycznie zamykana przy ekstremalnych warunkach) — widowiskowe nagrania z tego miejsca rozeszły się wiralowo. We wrześniu morze może być już niespokojne i szare — to dodaje dramatyzmu, zupełnie inny charakter niż letnia idylla.</p>
+    <p>Most Storseisundbrua z perspektywy aparatu fotograficznego wygląda jakby prowadził donikąd — charakterystyczne wygięcie to efekt krzywizny ziemi i perspektywy. Przy moście parking i punkt widokowy. Wysepki wokół to świetne miejsce na dziki nocleg — Allemannsretten, cisza, szum morza.</p>
+    <div class="atr-stats">
+      <div class="atr-stat"><strong>Długość</strong>8,3 km</div>
+      <div class="atr-stat"><strong>Mostów</strong>8</div>
+      <div class="atr-stat"><strong>Storseisundbrua</strong>260 m</div>
+      <div class="atr-stat"><strong>Zbudowana</strong>1989</div>
+      <div class="atr-stat"><strong>Koszt</strong>bezpłatna</div>
+    </div>
+    <div class="atr-tip-box"><strong>Zdjęcia:</strong> Najlepsze ujęcie Storseisundbrua z parkingu przy wjeździe od Kårvåg (południe) — most widoczny w całości z charakterystycznym wygięciem. Złota godzina we wrześniu ~19:30–20:00 CEST, ale D9 to długi dzień — Atlantic Road będzie prawdopodobnie po 16:00, z rozproszonym popołudniowym światłem.</div>
+  </div>
+</div>
+
+<div class="atr-card" id="atr-saltstraumen">
+  <div class="atr-card-header" style="background:linear-gradient(135deg,#1a3a5c,#2a5a8a);">
+    <span class="atr-emoji">🌀</span>
+    <div>
+      <div class="atr-day-badge">D11 · Nd 13 IX</div>
+      <h3>Saltstraumen — Najsilniejszy Wir Morski Świata</h3>
+      <div class="atr-meta">Bodø, Nordland · cieśnina 150 m × 3 km · prąd do 40 km/h · 20 km od Bodø</div>
+    </div>
+  </div>
+  <div class="atr-body">
+    <p>Saltstraumen to 3-kilometrowa cieśnina o szerokości zaledwie 150 metrów między Saltenfjord a Skjerstadfjord. Cztery razy na dobę — zgodnie z rytmem pływów — 400 milionów metrów sześciennych wody przepycha się przez ten wąski kanał w ciągu 6 godzin. Wynik: wiry (maelstromy) do 10 metrów średnicy i rekordowa prędkość prądu do 40 km/h. Wpisane do Księgi Rekordów Guinnessa.</p>
+    <p>Między szczytami pływów cieśnina wygląda spokojnie. Kluczowe: przyjedź 30–60 minut przed szczytem i obserwuj jak wiry zaczynają narastać od małych zawirowań do pełnowymiarowych lejów. Most E17 przerzucony prostopadle nad cieśniną daje widok z góry — stań na chodniku z aparatem. Lokalny klimat: rybacy znają każdy szczyt pływu, bo Saltstraumen to jedne z najlepszych łowisk dorsza i halibuta w Norwegii.</p>
+    <div class="atr-stats">
+      <div class="atr-stat"><strong>Szerokość</strong>150 m</div>
+      <div class="atr-stat"><strong>Długość</strong>3 km</div>
+      <div class="atr-stat"><strong>Prąd max</strong>40 km/h</div>
+      <div class="atr-stat"><strong>Objętość/cykl</strong>400 mln m³</div>
+      <div class="atr-stat"><strong>Rytm</strong>co ~6h</div>
+    </div>
+    <div class="atr-tip-box"><strong>Tabela pływów:</strong> kartverket.no/sehavniva → wyszukaj "Saltstraumen" lub saltstraumen.com. Sprawdź przed wyjazdem z Mo i Rana — dojazd 231 km = musisz wyliczyć godzinę startu. Szczyt pływu przypada o różnych porach każdego dnia — nie zakładaj że wyjdzie o "ładnej" godzinie.</div>
+  </div>
+</div>
+
+<div class="atr-card" id="atr-lofoten">
+  <div class="atr-card-header" style="background:linear-gradient(135deg,#4a1a6e,#6e2a9e);">
+    <span class="atr-emoji">🏝️</span>
+    <div>
+      <div class="atr-day-badge">D12–D14 · 14–16 IX</div>
+      <h3>Lofoty — Archipelag na Końcu Świata</h3>
+      <div class="atr-meta">Nordland · 68°N · za kołem podbiegunowym · Reine · Svolvær · Å</div>
+    </div>
+  </div>
+  <div class="atr-body">
+    <p>Lofoty to archipelag 80 wysp i skał 170 km od norweskiego lądu stałego, za kołem podbiegunowym (68°N). Pionowe szczyty (Lofotodden, 1 029 m) wznoszą się bezpośrednio z morza — bez żadnego przedpola. Z odległości wyglądają jak kamienny zamek wyrastający z oceanu. Biała linia plaż, turkusowa woda, czerwone rorbu (chatki rybackie na palach) nad wodą — jeden z najbardziej fotografowanych krajobrazów Europy.</p>
+    <p><strong>Południe archipelagu (D12):</strong> <em>Å</em> — koniec E10 i końcowa stacja archipelagu (po norwesku "å" = strumień, ale też ostatnia litera alfabetu), Norsk Fiskeværsmuseum. <em>Nusfjord</em> — najlepsza zachowana historyczna wioska rybacka, rorbu od XVIII w., wstęp ~100 NOK. <em>Reine</em> — wielokrotnie oceniane najpiękniejszą wioską Norwegii przez lokalne rankingi; Reinebringen (434 m, ~45 min w górę stromą ścieżką) daje widok całego południa archipelagu z góry. <em>Hamnøy</em> — czerwone rorbu na palach z mostem i szczytami w tle, kultowe zdjęcia.</p>
+    <p><strong>Plaże (D13):</strong> Utakleiv (turkusowa laguna, popularna), Haukland (spokojniejsza, lepsza na zachód słońca), Ramberg/Flakstad (szeroka plaża z widokiem na dramatyczne szczyty). Temperatura wody we wrześniu ~13°C — odważni wchodzą.</p>
+    <p><strong>Północ archipelagu (D14):</strong> <em>Svolvær</em> — "stolica" Lofotów, galerie sztuki, Svolværgeita (dwa skalne rogi, mekka alpinistów). <em>Kabelvåg</em> — historyczna stolica, kościół w stylu drewnianym. <em>Henningsvær</em> — malownicza wioska na wysepkach połączonych mostami, boisko do piłki nożnej na skale otoczonej morzem (absolutna ikona).</p>
+    <p><strong>Zorza polarna:</strong> od ok. 13–14 IX na Lofotach wracają ciemne noce po białych nocach lata. Przy KP index ≥3 i bezchmurnym niebie szansa realna. Plaże Flakstad i Ramberg dają najlepsze kompozycje — zorza + odbicie w wodzie. Aplikacja: Aurora Forecast (darmowa, dokładna).</p>
+    <div class="atr-stats">
+      <div class="atr-stat"><strong>Szerokość geogr.</strong>68°N</div>
+      <div class="atr-stat"><strong>Reinebringen</strong>434 m, 45 min</div>
+      <div class="atr-stat"><strong>E10 przez Lofoty</strong>~170 km</div>
+      <div class="atr-stat"><strong>Zorza</strong>od ~13 IX</div>
+    </div>
+    <div class="atr-tip-box"><strong>Kolejność dni:</strong> D12 — południe (Å→Nusfjord→Reine→Hamnøy), D13 — środek + plaże (Flakstad, Utakleiv, Haukland), D14 — północ (Svolvær, Kabelvåg, Henningsvær). Każda noc: sprawdzaj Aurora Forecast przed snem — zorza pojawia się i znika w ciągu minut, nie czekaj na pewność.</div>
+  </div>
+</div>
+
+</main>
+
+<footer style="text-align:center;padding:20px;font-size:11px;color:#999;background:#e8edf2;">
+  Odległości: OpenStreetMap OSRM routing API &nbsp;|&nbsp; Norwegia w kamperze — Ustroń → Lofoty &nbsp;|&nbsp; 3–20 września 2026
+</footer>
+
+</body>
+</html>
