@@ -105,6 +105,8 @@
   .checklist li { padding:6px 0 6px 28px; position:relative; border-bottom:1px dashed #eceff1; font-size:13px; }
   .checklist li:last-child { border-bottom:none; }
   .checklist li::before { content:'☐'; position:absolute; left:0; font-size:16px; color:var(--blue); }
+  .checklist li.done::before { content:'✓'; color:var(--green); font-weight:700; }
+  .checklist li.done { color:#555; }
   .checklist li span { color:var(--muted); font-size:12px; }
 
   /* POWRÓT FORK */
@@ -150,7 +152,19 @@
   .atr-tip-box { background:#fffbea; border-left:3px solid #f0c040; padding:8px 12px; font-size:12.5px; border-radius:0 6px 6px 0; margin-top:12px; line-height:1.65; }
   .atr-link { display:inline-block; margin:7px 5px 2px 0; font-size:12px; color:#1a5276; text-decoration:none; background:#dbeafe; border-radius:6px; padding:3px 11px; border:1px solid #b6d4f7; white-space:nowrap; }
   .atr-link:hover { background:#bdd4f0; }
+
+  /* ── MAPA ── */
+  #map { height:480px; width:100%; }
+  .map-wrap { background:#fff; border-bottom:1px solid #dce3ea; }
+  .map-legend { max-width:900px; margin:0 auto; padding:8px 20px 12px; font-size:12px; color:var(--muted); display:flex; flex-wrap:wrap; gap:12px; }
+  .map-legend span { display:flex; align-items:center; gap:5px; }
+  .ml-dot { width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .leaflet-popup-content { font-size:13px; line-height:1.6; min-width:180px; }
+  .leaflet-popup-content b { color:#1a3a5c; }
+  .leaflet-popup-content .pop-km { font-size:11px; color:#888; margin-top:3px; }
 </style>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -169,7 +183,9 @@
 <div class="notice">
   <strong>Odległości:</strong> wszystkie podane po drogach, zweryfikowane przez OpenStreetMap OSRM routing API.
   &nbsp;|&nbsp; <strong>Trasa dojazdu:</strong> A1/A4 przez Wrocław (nie przez Czechy — o ~150 km krócej).
-  &nbsp;|&nbsp; <strong>Powrót:</strong> Opcja B — prom Trelleborg → Świnoujście (Unity Line, ~450 PLN).
+  &nbsp;|&nbsp; <strong>Powrót:</strong> Opcja B — Narvik → E10 Kiruna → E4 Luleå → Stockholm → Ystad → Polferries 23:50 → Świnoujście.
+  &nbsp;|&nbsp; <strong>Promy ✅:</strong> Fjord Line 04.09 &nbsp;·&nbsp; Norled 13.09 Bodø→Moskenes &nbsp;·&nbsp; Polferries 19.09 Ystad→Świnoujście 1 340 PLN.
+  &nbsp;|&nbsp; <strong>AutoPASS:</strong> Tolltickets transponder zamówiony · AutoPASS for Ferry — zarejestrować po otrzymaniu taga.
 </div>
 
 <div class="legend">
@@ -181,6 +197,21 @@
   <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div> Relax</div>
   <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Mix</div>
   <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div> Powrót</div>
+</div>
+
+<!-- ═══ MAPA ═══ -->
+<div class="map-wrap">
+  <div id="map"></div>
+  <div class="map-legend">
+    <span><span class="ml-dot" style="background:#5d6d7e"></span> Dojazd/jazda</span>
+    <span><span class="ml-dot" style="background:#1a3a5c"></span> Prom</span>
+    <span><span class="ml-dot" style="background:#1e8449"></span> Trekking</span>
+    <span><span class="ml-dot" style="background:#d35400"></span> Zwiedzanie</span>
+    <span><span class="ml-dot" style="background:#6c3483"></span> Lofoty</span>
+    <span><span class="ml-dot" style="background:#148f77"></span> Mix</span>
+    <span><span class="ml-dot" style="background:#922b21"></span> Powrót</span>
+    <span><span class="ml-dot" style="background:#b7950b; border:1px solid #ccc;"></span> Relax</span>
+  </div>
 </div>
 
 <main>
@@ -897,7 +928,8 @@
   <strong>Wasz kamper: DMC ≤3,5t = Klasa 1</strong> — najtańsza kategoria w norweskim systemie opłat. Długość 5,96 m mieści się w kategorii "do 6 m" przy rezerwacjach promów. Szerokość 2,1 m — standardowy kamper, bez ograniczeń na trasie (Trollstigen max 12,4 m długości).
 </div>
 <div class="info" style="margin-bottom:14px;">
-  <strong>EasyGo</strong> (easygo.no) — rekomendowane rozwiązanie dla kamperów. Jedna rejestracja obsługuje tolly w Norwegii, Szwecji i Danii. Kamera czyta tablicę, opłaty pobierane automatycznie z depozytu. Dyskont ~20% vs. rozliczenie pocztą. <strong>Zarejestruj się minimum 2–3 tygodnie przed wyjazdem.</strong> EasyGo pokrywa też szwedzki podatek kongestionowy w Sztokholmie.
+  <strong>Tolltickets</strong> (tolltickets.com) ✅ <em>transponder zamówiony</em> — obsługuje tolly w Norwegii, Szwecji i Danii. Fizyczna naklejka na szybę, <strong>-20% na wszystkich norweskich bramkach</strong>, pokrywa też szwedzki podatek kongestionowy w Sztokholmie (D16). Backup: ePASS24 (epass24.com) — rejestracja tablicy bez urządzenia, brak zniżek, ale unikasz faktur pocztowych.<br>
+  <small>⚠ EasyGo (easygo.no) nie działa w Norwegii od marca 2022 — AutoPASS opuścił partnerstwo EasyGo.</small>
 </div>
 
 <!-- ═══ BUDGET ═══ -->
@@ -979,33 +1011,33 @@
 <div class="checklist">
   <h3>📋 Lista obowiązkowych rezerwacji i rejestracji</h3>
   <ul>
-    <li>
-      <strong>EasyGo — rejestracja do opłat drogowych</strong> — zrób minimum 3 tygodnie przed wyjazdem<br>
-      <span>easygo.no → "Foreign vehicle" → podaj nr rej. i DMC kampera → wpłać depozyt (~500–800 PLN). Obsługuje wszystkie norweskie tolly + szwedzki podatek kongestionowy Sztokholm. Bez EasyGo rachunek przychodzi pocztą z opóźnieniem miesięcy.</span>
+    <li class="done">
+      <strong>Tolltickets — transponder AutoPASS</strong> ✅ zamówiony 27.06.2026<br>
+      <span>tolltickets.com · Pay-as-you-go · dostawa ~2 tyg. Naklejka na szybę → -20% na norweskich bramkach + pokrywa szwedzki podatek kongestionowy Sztokholm (D16). Po otrzymaniu taga: zarejestruj na autopassferje.no z prepaidem → -50% na promach Norled i Fjord1.</span>
+    </li>
+    <li class="done">
+      <strong>Fjord Line Hirtshals → Kristiansand 19:15</strong> ✅ zakupiony<br>
+      <span>04.09.2026 · MS Stavangerfjord · check-in do 18:15. Przeprawa 2h 15min.</span>
     </li>
     <li>
-      <strong>Fjord Line Hirtshals → Kristiansand 19:15</strong> — rezerwuj 2–3 miesiące wcześniej<br>
-      <span>fjordline.com → Camper/Caravan, podaj długość pojazdu. Przeprawa 2h 15min. Wrzesień = shoulder season.</span>
+      <strong>Prom Hellesylt → Geiranger</strong> ⬜ do rezerwacji — zrób jak najwcześniej!<br>
+      <span>fjord1.no → kamper/samochód + 2 os., kurs 8:00 lub 9:30. Przeprawa ~1h (UNESCO). Cena: ~100 NOK/os + pojazd. Bez rezerwacji: ryzyko kolejki.</span>
     </li>
     <li>
-      <strong>Prom Hellesylt → Geiranger</strong> — rezerwacja zalecana w sezonie<br>
-      <span>fjord1.no lub visitgeiranger.com → kamper/samochód + 2 os., kurs 8:00 lub 9:30. Przeprawa ~1h (UNESCO). Cena: ~100 NOK/os + pojazd. Bez rezerwacji: ryzyko kolejki, szczególnie rano.</span>
+      <strong>Trolltunga — shuttle bus z P1 Tyssedal</strong> ⬜ do rezerwacji<br>
+      <span>trolltunga.com → zarezerwuj shuttle bus (kamper nie wjedzie na P2/P3). Parking P1 Tyssedal — tylko dzienny. Nocleg: Odda Camping (D5).</span>
     </li>
-    <li>
-      <strong>Trolltunga — shuttle bus z P1 Tyssedal</strong> — rezerwacja online obowiązkowa<br>
-      <span>trolltunga.com → zarezerwuj shuttle bus (kamper nie wjedzie na P2/P3). Parking P1 Tyssedal — tylko dzienny, nocleg zabroniony. Nocleg: Odda Camping dzień wcześniej (D5).</span>
+    <li class="done">
+      <strong>Prom Bodø → Moskenes</strong> ✅ zakupiony (bez zniżki AutoPASS)<br>
+      <span>Norled · 13.09.2026 · 21:00→00:15 · Camper + 2 os. Po otrzymaniu taga Tolltickets: rozważ rebooking przez autopassferje.no z prepaidem → -50% na cenie promu.</span>
     </li>
-    <li>
-      <strong>Prom Bodø → Moskenes</strong> — rezerwuj 4–6 tygodni wcześniej<br>
-      <span>norled.no → Bodø–Moskenes. Podaj długość kampera dokładnie. Wrzesień to jeszcze sezon — miejsca dla dużych pojazdów są ograniczone.</span>
-    </li>
-    <li>
-      <strong>Polferries Ystad → Świnoujście 23:50</strong> — rezerwuj 3–4 tygodnie wcześniej<br>
-      <span>polferries.pl → pojazd pow. 2,5m wys. do 10m dł. + kierowca + 2. pasażer + kabina 2-os bez okna = 1 340 PLN (cena kompletna). Bądź w terminalu ok. 21:30. M/F Polonia.</span>
+    <li class="done">
+      <strong>Polferries Ystad → Świnoujście 23:50</strong> ✅ zakupiony — 1 340 PLN<br>
+      <span>19.09.2026 · M/F Polonia · kabina 224 · bądź w terminalu ok. 21:30.</span>
     </li>
     <li>
       <strong>Winieta / toll — Dania i Szwecja</strong> — brak winiety w obu krajach<br>
-      <span>Dania: autostrady bezpłatne dla pojazdów ≤3,5t. Szwecja: E4 bezpłatna, brak winiety. Jedyny koszt: podatek kongestionowy Sztokholm (D16, piątek) — pokrywa EasyGo.</span>
+      <span>Dania: autostrady bezpłatne dla pojazdów ≤3,5t. Szwecja: E4 bezpłatna, brak winiety. Jedyny koszt: podatek kongestionowy Sztokholm (D16, piątek) — pokrywa Tolltickets automatycznie.</span>
     </li>
   </ul>
 </div>
@@ -1032,8 +1064,8 @@
       <span>Plaże Flakstad/Ramberg i okolice Reine świetne do fotografowania zorzy (odblask w wodzie).</span>
     </li>
     <li>
-      <strong>D17 — Trondheim → Trelleborg (1 075 km)</strong> — najcięższy dzień. System: jeden kieruje, drugi śpi. Zmiana co 2h. Wyjazd 5:00, przerwy tylko na stacje paliw. Kawa termosowa obowiązkowa.<br>
-      <span>Bez dwóch kierowców ten dzień jest niemożliwy do wykonania bezpiecznie.</span>
+      <strong>D16 — Luleå → Stockholm (902 km / 11.4h)</strong> — najcięższy dzień powrotu. System: jeden kieruje, drugi śpi. Zmiana co 2h. Wyjazd 6:00, przerwy tylko na stacje paliw. Kawa termosowa obowiązkowa.<br>
+      <span>Bez dwóch kierowców ten dzień jest niemożliwy do wykonania bezpiecznie. D17 Stockholm→Ystad to już tylko 625 km — komfortowy finisz.</span>
     </li>
     <li>
       <strong>Waluta</strong> — Norwegia: NOK, Szwecja: SEK. Kartą płacisz wszędzie — gotówka prawie zbędna. Sprawdź kurs bankowy vs kantor przed wyjazdem.<br>
@@ -1261,6 +1293,119 @@
 </div>
 
 </main>
+
+<script>
+// ── Kolory kategorii (zgodne z CSS) ──
+const C = {
+  dojazd:'#5d6d7e', prom:'#1a3a5c', trek:'#1e8449',
+  zwiedz:'#d35400', lofoty:'#6c3483', teal:'#148f77',
+  powrot:'#922b21', relax:'#b7950b'
+};
+
+// ── Przystanki noclegowe D1–D18 ──
+const stops = [
+  { d:'D1',  date:'3 IX Czw',  lat:49.7153, lng:18.8139, name:'Ustroń — START',            km:'0',     c:C.dojazd, info:'Wyjazd 16:00 → Berlin' },
+  { d:'D1',  date:'3 IX noc',  lat:52.5200, lng:13.4050, name:'Berlin (nocleg)',             km:'566',   c:C.dojazd, info:'Nocleg obrzeża Berlina' },
+  { d:'D2',  date:'4 IX Pt',   lat:57.5903, lng:9.9627,  name:'Hirtshals — Prom 19:15',    km:'792',   c:C.prom,   info:'Fjord Line → Kristiansand · check-in 18:15' },
+  { d:'D3',  date:'5 IX Sb',   lat:58.9700, lng:5.7331,  name:'Stavanger',                  km:'259',   c:C.dojazd, info:'Kristiansand → E39 → Stavanger' },
+  { d:'D4',  date:'6 IX Nd',   lat:60.0692, lng:6.5453,  name:'Odda (po Preikestolen)',     km:'202',   c:C.trek,   info:'Preikestolen 🪨 8km RT 334m · potem Odda' },
+  { d:'D5-6',date:'7–8 IX',    lat:60.0842, lng:6.5450,  name:'Odda — TROLLTUNGA',         km:'27km',  c:C.trek,   info:'Start 5:00 z Odda · 27km · 1000m D+ · powrót ~18h' },
+  { d:'D7',  date:'9 IX Śr',   lat:60.8633, lng:7.1108,  name:'Flåm',                       km:'154',   c:C.zwiedz, info:'Hardangerfjord · Borgund · Stegastein · Flåm' },
+  { d:'D8',  date:'10 IX Czw', lat:62.0881, lng:6.8833,  name:'Hellesylt',                  km:'261',   c:C.zwiedz, info:'Sognefjord · nocleg przy terminalu promowym' },
+  { d:'D9',  date:'11 IX Pt',  lat:63.4305, lng:10.3951, name:'Trondheim',                  km:'~420',  c:C.teal,   info:'Geiranger ⛴ → Trollstigen → Atlantic Road → Trondheim' },
+  { d:'D10', date:'12 IX Sb',  lat:66.3131, lng:14.1421, name:'Mo i Rana',                  km:'472',   c:C.dojazd, info:'E6 north · Koło Podbiegunowe 66°33\'N' },
+  { d:'D11', date:'13 IX Nd',  lat:67.2804, lng:14.4049, name:'Bodø — Prom 21:00',          km:'231',   c:C.prom,   info:'Mo i Rana → Bodø · Saltstraumen · prom → Moskenes 00:15' },
+  { d:'D12', date:'14 IX Pn',  lat:67.9318, lng:13.0878, name:'Lofoty — Reine',             km:'~60',   c:C.lofoty, info:'Å · Nusfjord · Reine · Hamnøy · zorza od ~14 IX' },
+  { d:'D13', date:'15 IX Wt',  lat:68.1167, lng:13.5500, name:'Lofoty — Vestvågøy',         km:'~80',   c:C.lofoty, info:'Flakstad beach · Ramberg · Lofotr Viking Museum' },
+  { d:'D14', date:'16 IX Śr',  lat:68.4385, lng:17.4279, name:'Narvik',                     km:'222',   c:C.lofoty, info:'Henningsvær · Kabelvåg · Svolvær → E10 east → Narvik' },
+  { d:'D15', date:'17 IX Czw', lat:65.5848, lng:22.1547, name:'Luleå',                      km:'515',   c:C.powrot, info:'Narvik → E10 Kiruna → Gällivare → Luleå · tankuj!' },
+  { d:'D16', date:'18 IX Pt',  lat:59.3293, lng:18.0686, name:'Stockholm',                  km:'902',   c:C.powrot, info:'Luleå → Sundsvall → Uppsala → Stockholm · 11.4h · 2 kierowców!' },
+  { d:'D17', date:'19 IX Sb',  lat:55.4295, lng:13.8200, name:'Ystad — Prom 23:50',         km:'625',   c:C.powrot, info:'Stockholm → Malmö → Ystad · Polferries → Świnoujście' },
+  { d:'D18', date:'20 IX Nd',  lat:49.7153, lng:18.8200, name:'Ustroń — DOM! 🏠',           km:'711',   c:C.dojazd, info:'Świnoujście → A6 → A4 → S1 → Ustroń · ~8h' },
+];
+
+// ── Inicjalizacja mapy ──
+const map = L.map('map').setView([63, 12], 4);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+  maxZoom: 17
+}).addTo(map);
+
+// ── Promy — proste przerywane linie (bez routingu) ──
+[
+  { pts:[[57.5903,9.9627],[58.1467,7.9956]], tip:'⛴ Fjord Line: Hirtshals → Kristiansand' },
+  { pts:[[62.0881,6.8833],[62.1008,7.2051]], tip:'⛴ Fjord1: Hellesylt → Geiranger' },
+  { pts:[[67.2804,14.4049],[67.9278,13.0114]], tip:'⛴ Norled: Bodø → Moskenes' },
+  { pts:[[55.4295,13.8200],[54.0895,14.2476]], tip:'⛴ Polferries: Ystad → Świnoujście' },
+].forEach(f =>
+  L.polyline(f.pts, { color:C.prom, weight:2.5, opacity:0.9, dashArray:'10,6' })
+   .addTo(map).bindPopup(`<b>${f.tip}</b>`)
+);
+
+// ── Markery (rysowane od razu, trasy doganiają po fetch) ──
+stops.forEach(s => {
+  const isKey = ['D2','D4','D5-6','D9','D11','D12','D14','D16','D17'].includes(s.d);
+  L.circleMarker([s.lat, s.lng], {
+    radius: isKey ? 8 : 6, color:'#fff', weight:2,
+    fillColor: s.c, fillOpacity:0.92
+  }).addTo(map).bindPopup(
+    `<b>${s.d} · ${s.date}</b><br>${s.name}<br>
+     <span style="color:#555">${s.info}</span>
+     <div class="pop-km">📍 ${s.km} km</div>`
+  );
+});
+
+// ── Etykiety atrakcji ──
+[
+  { lat:59.4622, lng:6.1893, label:'🪨 Preikestolen' },
+  { lat:60.1240, lng:6.7382, label:'👅 Trolltunga' },
+  { lat:62.1008, lng:7.2051, label:'🌊 Geiranger' },
+  { lat:62.4563, lng:7.6694, label:'🌀 Trollstigen' },
+  { lat:63.017,  lng:7.348,  label:'🌉 Atlantic Road' },
+  { lat:66.50,   lng:14.00,  label:'⭕ Koło Podbiegunowe' },
+  { lat:67.2804, lng:14.10,  label:'🌀 Saltstraumen' },
+  { lat:67.879,  lng:12.978, label:'🏝️ Å (Lofoty)' },
+].forEach(i =>
+  L.marker([i.lat, i.lng], {
+    icon: L.divIcon({ className:'', iconAnchor:[0,10],
+      html:`<div style="font-size:13px;white-space:nowrap;text-shadow:0 1px 3px #fff,0 -1px 3px #fff">${i.label}</div>` })
+  }).addTo(map)
+);
+
+// ── OSRM routing: faktyczna geometria dróg ──
+// Segmenty lądowe: [kolor, waga, [[lat,lng],...]] — promy wykluczone
+const segs = [
+  [C.dojazd, 3, [[49.715,18.814],[52.520,13.405],[53.551,9.994],[57.590,9.963]]],  // D1-D2: Ustroń→Hirtshals
+  [C.dojazd, 3, [[58.147,7.996],[58.970,5.733]]],                                   // D3: Kristiansand→Stavanger
+  [C.trek,   3, [[58.970,5.733],[59.009,5.985],[59.462,6.189],[60.069,6.545]]],     // D4: Stavanger→Preikestolen→Odda
+  [C.zwiedz, 3, [[60.069,6.545],[60.863,7.111]]],                                   // D5-D7: Odda→Flåm
+  [C.zwiedz, 3, [[60.863,7.111],[62.088,6.883]]],                                   // D8: Flåm→Hellesylt (przez fiordy)
+  [C.teal,   3, [[62.101,7.205],[62.456,7.669],[62.566,7.688],[63.017,7.348],[63.431,10.395]]], // D9: Geiranger→Trollstigen→Atlantic Road→Trondheim
+  [C.dojazd, 3, [[63.431,10.395],[65.000,12.500],[66.313,14.142]]],                 // D10: Trondheim→Mo i Rana
+  [C.dojazd, 3, [[66.313,14.142],[67.280,14.405]]],                                 // D11: Mo i Rana→Bodø
+  [C.lofoty, 3, [[67.928,13.011],[67.879,12.978],[67.932,13.088],[68.145,13.617],[68.155,14.190],[68.234,14.565],[68.439,17.428]]], // D12-D14: Lofoty→Narvik
+  [C.powrot, 3, [[68.439,17.428],[67.856,20.225],[67.133,20.650],[65.585,22.155]]], // D15: Narvik→Kiruna→Luleå
+  [C.powrot, 3, [[65.585,22.155],[62.391,17.307],[59.859,17.639],[59.329,18.069]]], // D16: Luleå→Stockholm
+  [C.powrot, 3, [[59.329,18.069],[55.605,13.004],[55.430,13.820]]],                 // D17: Stockholm→Ystad
+  [C.dojazd, 3, [[54.090,14.248],[52.408,16.934],[50.265,19.024],[49.715,18.814]]], // D18: Świnoujście→Ustroń
+];
+
+async function fetchOSRM(wps) {
+  const coord = wps.map(([la,ln]) => `${ln},${la}`).join(';');
+  const r = await fetch(`https://router.project-osrm.org/route/v1/driving/${coord}?overview=full&geometries=geojson`);
+  const j = await r.json();
+  if (j.code !== 'Ok') return null;
+  return j.routes[0].geometry.coordinates.map(([ln,la]) => [la,ln]);
+}
+
+Promise.all(segs.map(async ([col, w, wps]) => {
+  const pts = await fetchOSRM(wps).catch(() => null);
+  L.polyline(pts || wps, {
+    color: col, weight: w, opacity: 0.85,
+    ...(pts ? {} : { dashArray:'5,5' })
+  }).addTo(map);
+}));
+</script>
 
 <footer style="text-align:center;padding:20px;font-size:11px;color:#999;background:#e8edf2;">
   Odległości: OpenStreetMap OSRM routing API &nbsp;|&nbsp; Norwegia w kamperze — Ustroń → Lofoty &nbsp;|&nbsp; 3–20 września 2026
